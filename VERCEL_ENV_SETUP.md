@@ -5,7 +5,7 @@ Las variables de entorno `VITE_API_URL` no se están tomando correctamente en Ve
 
 ## ✅ **Solución Implementada:**
 
-### 1. **Archivo vercel.json Corregido**
+### 1. **Archivo vercel.json Simplificado**
 ```json
 {
   "rewrites": [
@@ -13,17 +13,11 @@ Las variables de entorno `VITE_API_URL` no se están tomando correctamente en Ve
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "env": {
-    "VITE_API_URL": "@vite_api_url"
-  },
-  "build": {
-    "env": {
-      "VITE_API_URL": "@vite_api_url"
-    }
-  }
+  ]
 }
 ```
+
+**⚠️ IMPORTANTE:** NO agregues variables de entorno en `vercel.json`. Vercel las maneja automáticamente.
 
 ### 2. **auth.js Mejorado**
 ```javascript
@@ -47,7 +41,7 @@ const getApiUrl = () => {
 };
 ```
 
-## 🎯 **Configuración en Vercel:**
+## 🎯 **Configuración CORRECTA en Vercel:**
 
 ### **Paso 1: Ir al Dashboard de Vercel**
 1. Ve a [vercel.com/dashboard](https://vercel.com/dashboard)
@@ -55,10 +49,12 @@ const getApiUrl = () => {
 
 ### **Paso 2: Configurar Variables de Entorno**
 1. Ve a **Settings** → **Environment Variables**
-2. Agrega la variable:
+2. Haz click en **Add New**
+3. Configura la variable:
    - **Name**: `VITE_API_URL`
    - **Value**: `https://tu-api-produccion.com` (tu URL real)
-   - **Environment**: `Production`, `Preview`, `Development`
+   - **Environment**: ✅ `Production`, ✅ `Preview`, ✅ `Development`
+4. Haz click en **Save**
 
 ### **Paso 3: Redeploy**
 1. Ve a **Deployments**
@@ -71,13 +67,13 @@ const getApiUrl = () => {
 - ✅ Logs en consola muestran la URL
 
 ### **En Producción:**
-- ✅ Usa la variable `VITE_API_URL`
+- ✅ Usa la variable `VITE_API_URL` configurada en Vercel
 - ✅ Logs en consola muestran la URL configurada
 - ✅ Fallback si no está configurada
 
 ## 📝 **Archivos Modificados:**
 
-1. **`vercel.json`** - ✅ Configuración corregida
+1. **`vercel.json`** - ✅ Configuración simplificada (sin variables)
 2. **`src/services/auth.js`** - ✅ Manejo mejorado de variables
 3. **`versel.json`** - ❌ Eliminado (nombre incorrecto)
 
@@ -88,10 +84,24 @@ const getApiUrl = () => {
 - ✅ **Logs de debug** para verificar configuración
 - ✅ **Fallback seguro** si algo falla
 
-## ⚠️ **Importante:**
+## ⚠️ **IMPORTANTE - NO HACER:**
 
-- **Cambia `https://tu-api-produccion.com`** por tu URL real de producción
-- **Redeploy** después de configurar las variables
-- **Verifica los logs** en la consola del navegador
+- ❌ **NO agregues variables** en `vercel.json`
+- ❌ **NO uses `@secret_name`** en la configuración
+- ❌ **NO configures `env`** en `vercel.json`
 
-¡Las variables de entorno ahora deberían funcionar correctamente en Vercel! 
+## ✅ **IMPORTANTE - SÍ HACER:**
+
+- ✅ **Configura variables** en el Dashboard de Vercel
+- ✅ **Usa nombres exactos** como `VITE_API_URL`
+- ✅ **Selecciona todos los entornos** (Production, Preview, Development)
+- ✅ **Haz redeploy** después de configurar
+
+## 🔧 **Solución al Error:**
+
+El error **"Secret 'vite_api_url' does not exist"** se solucionó:
+1. ✅ **Eliminando** la configuración incorrecta de `vercel.json`
+2. ✅ **Configurando** la variable directamente en el Dashboard de Vercel
+3. ✅ **Simplificando** la configuración del proyecto
+
+¡Ahora las variables de entorno deberían funcionar correctamente en Vercel sin errores! 
