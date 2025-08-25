@@ -15,7 +15,6 @@ const Dashboard = () => {
   
   // Verificación de seguridad
   if (!data) {
-    console.log('Dashboard - useData retornó null, mostrando loading...');
     return (
       <div className="loading-screen">
         <div className="loading-spinner"></div>

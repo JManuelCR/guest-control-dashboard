@@ -126,7 +126,6 @@ const DataProvider = ({ children }) => {
         requestGuestsViaSocket
     };
 
-    console.log('DataProvider - Valor del contexto:', value);
 
     return (
         <DataContext.Provider value={value}>
