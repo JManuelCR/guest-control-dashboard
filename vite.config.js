@@ -8,18 +8,17 @@ export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, fileURLToPath(new URL('.', import.meta.url)), '')
   
   // Detectar si estamos en build de producción (Vercel)
-  const isProductionBuild = command === 'build' || env.NODE_ENV === 'production'
+  const isProductionBuild = command === 'build'
   
-  // Forzar modo de producción si está configurado en .env o si es build
-  const forcedMode = isProductionBuild || env.VITE_MODE === 'production' ? 'production' : mode
-  
+  // Forzar modo de producción si es build
+  const forcedMode = isProductionBuild ? 'production' : mode
   
   return {
     plugins: [react()],
     
     // Configuración para detectar correctamente el entorno
     define: {
-      // Forzar modo de producción basado en .env o build
+      // Forzar modo de producción basado en build
       __DEV__: JSON.stringify(forcedMode === 'development'),
       __PROD__: JSON.stringify(forcedMode === 'production'),
       
@@ -30,16 +29,12 @@ export default defineConfig(({ mode, command }) => {
       'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL),
       'import.meta.env.VITE_MODE': JSON.stringify(env.VITE_MODE),
       'import.meta.env.VITE_USER_NODE_ENV': JSON.stringify(env.VITE_USER_NODE_ENV),
-      
-      // Variables específicas para Vercel
-      'import.meta.env.VERCEL': JSON.stringify(env.VERCEL === '1'),
-      'import.meta.env.VERCEL_ENV': JSON.stringify(env.VERCEL_ENV || 'production'),
     },
     
     // Configuración de build para Vercel
     build: {
-      // Asegurar que se detecte como producción
-      minify: 'terser',
+      // Usar esbuild en lugar de terser para evitar problemas
+      minify: 'esbuild',
       sourcemap: false,
       
       // Configuración de rollup
