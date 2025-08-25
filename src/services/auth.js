@@ -1,30 +1,12 @@
 import axios from "axios";
+import API_CONFIG from "../config/api.js";
 
-// Configuración de la API con mejor manejo de variables de entorno
-const getApiUrl = () => {
-  // En desarrollo, usar localhost
-  if (import.meta.env.DEV) {
-    return "http://localhost:8080";
-  }
-  
-  // En producción, usar la variable de entorno o fallback
-  const apiUrl = import.meta.env.VITE_API_URL;
-  console.log('🔧 VITE_API_URL:', apiUrl);
-  
-  if (apiUrl) {
-    return apiUrl;
-  }
-  
-  // Fallback para producción
-  console.warn('⚠️ VITE_API_URL no configurada, usando fallback');
-  return "https://tu-api-produccion.com"; // Cambiar por tu URL real
-};
-
+// Configuración de la API usando la configuración centralizada
 const API = axios.create({
-  baseURL: getApiUrl()
+  baseURL: API_CONFIG.getBaseUrl()
 });
 
-console.log('🚀 API Base URL:', API.defaults.baseURL);
+console.log('🚀 API Base URL final:', API.defaults.baseURL);
 
 // Interceptor para agregar el token a todas las peticiones
 API.interceptors.request.use(
