@@ -601,7 +601,7 @@ const Table = ({ guestList }) => {
                 <td>{guest.guestProbability || 'N/A'}</td>
                 <td className="column-status">
                   {!guest.guestInvitationDelivered ? '⏳ Pendiente' : 
-                   guest.guestParticipation > 0 && guest.guestInvitationResponse ? '✅ Sí' : '❌ No'}
+                   guest.guestParticipation > 0 && guest.guestInvitationResponse ? `✅ Sí con ${guest.guestParticipation} pases` : '❌ No'}
                 </td>
                 <td className="column-email">{guest.guestPrimaryContact || 'N/A'}</td>
                 <td className="column-email">{guest.guestSecondaryContact || 'N/A'}</td>
