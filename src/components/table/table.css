@@ -151,6 +151,41 @@ th, td {
     font-size: 18px;
 }
 
+/* Indicador del estado del WebSocket */
+.socket-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e8f0;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-indicator {
+  font-size: 16px;
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.connected {
+  color: #10b981;
+}
+
+.status-indicator.disconnected {
+  color: #ef4444;
+}
+
+.status-text {
+  color: #64748b;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
 /* Estados de fila con transiciones suaves */
 table tbody tr {
   transition: background-color 0.3s ease, transform 0.2s ease;

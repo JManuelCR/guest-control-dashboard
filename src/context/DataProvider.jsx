@@ -35,25 +35,36 @@ const DataProvider = ({ children }) => {
         const manager = new GuestSocketManager();
         socketManagerRef.current = manager;
 
-        // Configurar callbacks
-        manager.onGuestsFetched(() => {
+        // Configurar callbacks con logs detallados
+        manager.onGuestsFetched((data) => {
+            console.log('📋 DataProvider: Invitados obtenidos via WebSocket:', data);
             // Actualizar contador si es necesario
         });
 
         manager.onGuestUpdated((data) => {
-            setGuests((prevGuests) =>
-                prevGuests.map((guest) =>
-                    guest.id === data.id ? { ...guest, ...data } : guest
-                )
-            );
+            console.log('🔄 DataProvider: Invitado actualizado via WebSocket:', data);
+            setGuests((prevGuests) => {
+                const updatedGuests = prevGuests.map((guest) => {
+                    // Buscar por guestInvitationId en lugar de id
+                    if (guest.guestInvitationId === data.guestInvitationId) {
+                        console.log('✅ DataProvider: Actualizando invitado:', guest.guestName, 'con datos:', data);
+                        return { ...guest, ...data };
+                    }
+                    return guest;
+                });
+                console.log('📊 DataProvider: Lista de invitados actualizada:', updatedGuests.length, 'invitados');
+                return updatedGuests;
+            });
         });
 
         manager.onGuestAdded((data) => {
+            console.log('➕ DataProvider: Invitado agregado via WebSocket:', data);
             setGuests((prevGuests) => [...prevGuests, data]);
         });
 
         manager.onGuestRemoved((data) => {
-            setGuests((prevGuests) => prevGuests.filter(guest => guest.id !== data.id));
+            console.log('➖ DataProvider: Invitado removido via WebSocket:', data);
+            setGuests((prevGuests) => prevGuests.filter(guest => guest.guestInvitationId !== data.guestInvitationId));
         });
 
         // Conectar al WebSocket
@@ -61,15 +72,15 @@ const DataProvider = ({ children }) => {
 
         // Verificar estado de conexión con intervalo más largo
         connectionCheckRef.current = setInterval(() => {
-            if (manager.isConnected()) {
-                setSocketConnected(true);
-            } else {
-                setSocketConnected(false);
+            const isConnected = manager.isConnected();
+            if (isConnected !== socketConnected) {
+                console.log('🔌 DataProvider: Estado de WebSocket cambiado:', isConnected ? 'CONECTADO' : 'DESCONECTADO');
+                setSocketConnected(isConnected);
             }
         }, 2000); // Reducido de 1000ms a 2000ms
 
         return manager;
-    }, []);
+    }, [socketConnected]);
 
     useEffect(() => {
         fetchGuests();
@@ -87,14 +98,41 @@ const DataProvider = ({ children }) => {
 
     const updateGuest = useCallback(async (id, data) => {
         try {
+            console.log('🔄 DataProvider: Iniciando actualización de invitado:', id, 'con datos:', data);
+            
+            // Hacer la petición PATCH
             const response = await patchGuest(id, data);
-            setGuests((prevGuests) =>
-                prevGuests.map((guest) =>
-                    guest.id === id ? response.data : guest
-                )
-            );
+            console.log('✅ DataProvider: PATCH exitoso, respuesta:', response.data);
+            
+            // Actualizar estado local inmediatamente
+            setGuests((prevGuests) => {
+                const updatedGuests = prevGuests.map((guest) => {
+                    if (guest.guestInvitationId === id) {
+                        console.log('📝 DataProvider: Actualizando invitado local:', guest.guestName);
+                        return { ...guest, ...response.data };
+                    }
+                    return guest;
+                });
+                return updatedGuests;
+            });
+            
+            // Notificar al WebSocket sobre la actualización
+            if (socketManagerRef.current && socketManagerRef.current.isConnected()) {
+                console.log('📡 DataProvider: Notificando actualización via WebSocket');
+                socketManagerRef.current.updateGuest({
+                    guestInvitationId: id,
+                    ...data,
+                    timestamp: new Date().toISOString()
+                });
+            } else {
+                console.log('⚠️ DataProvider: WebSocket no conectado, no se puede notificar');
+            }
+            
+            return response.data;
         } catch (err) {
+            console.error('🚨 DataProvider: Error en updateGuest:', err);
             setError(err);
+            throw err;
         }
     }, []);
 

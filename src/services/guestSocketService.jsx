@@ -37,52 +37,67 @@ class GuestSocketManager {
   // Configurar todos los event listeners
   setupEventListeners() {
     this.socket.on('connect', () => {
-      // Conectado al servidor WebSocket
+      console.log('🔌 WebSocket CONECTADO - ID:', this.socket.id);
+      console.log('📡 Transporte:', this.socket.io.engine.transport.name);
     });
 
     this.socket.on('disconnect', () => {
-      // Desconectado del servidor WebSocket
+      console.log('❌ WebSocket DESCONECTADO');
     });
 
-    this.socket.on('connect_error', () => {
-      // Error de conexión WebSocket
+    this.socket.on('connect_error', (error) => {
+      console.error('🚨 Error de conexión WebSocket:', error);
     });
 
-    this.socket.on('reconnect', () => {
-      // Reconectado al servidor WebSocket
+    this.socket.on('reconnect', (attemptNumber) => {
+      console.log('🔄 WebSocket RECONECTADO - Intento:', attemptNumber);
     });
 
-    this.socket.on('reconnect_error', () => {
-      // Error de reconexión WebSocket
+    this.socket.on('reconnect_error', (error) => {
+      console.error('🚨 Error de reconexión WebSocket:', error);
     });
 
     this.socket.on('reconnect_failed', () => {
-      // Falló la reconexión WebSocket
+      console.error('💥 Falló la reconexión WebSocket');
     });
 
-    // Eventos de invitados
+    // Eventos de invitados con logs detallados
     this.socket.on(SOCKET_CONFIG.EVENTS.GUESTS_FETCHED, (data) => {
+      console.log('📋 WebSocket: Invitados obtenidos:', data);
       if (this.callbacks.onGuestsFetched) {
         this.callbacks.onGuestsFetched(data);
       }
     });
 
     this.socket.on(SOCKET_CONFIG.EVENTS.GUEST_UPDATED, (data) => {
+      console.log('🔄 WebSocket: Invitado ACTUALIZADO:', data);
       if (this.callbacks.onGuestUpdated) {
         this.callbacks.onGuestUpdated(data);
       }
     });
 
     this.socket.on(SOCKET_CONFIG.EVENTS.GUEST_ADDED, (data) => {
+      console.log('➕ WebSocket: Invitado AGREGADO:', data);
       if (this.callbacks.onGuestAdded) {
         this.callbacks.onGuestAdded(data);
       }
     });
 
     this.socket.on(SOCKET_CONFIG.EVENTS.GUEST_REMOVED, (data) => {
+      console.log('➖ WebSocket: Invitado ELIMINADO:', data);
       if (this.callbacks.onGuestRemoved) {
         this.callbacks.onGuestRemoved(data);
       }
+    });
+
+    // Evento para confirmar que el servidor recibió la actualización
+    this.socket.on('guest-update-confirmed', (data) => {
+      console.log('✅ WebSocket: Actualización confirmada por servidor:', data);
+    });
+
+    // Evento para errores del servidor
+    this.socket.on('guest-update-error', (error) => {
+      console.error('🚨 WebSocket: Error en actualización:', error);
     });
   }
 

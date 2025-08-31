@@ -1,13 +1,17 @@
 import './table.css';
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect, useContext } from 'react';
 import InvitationLink from '../invitation-link/invitationLink';
 import MarkAsInvited from '../mark-as.invited/mark-as-invited';
+import { DataContext } from '../../context/DataContext';
 
 const Table = ({ guestList }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const [forceUpdate, setForceUpdate] = useState(0); // Estado para forzar re-renders
+  
+  // Obtener el estado del WebSocket del contexto
+  const { socketConnected } = useContext(DataContext);
   
   // Estado para filtros de columnas
   const [columnFilters, setColumnFilters] = useState({
@@ -330,6 +334,15 @@ const Table = ({ guestList }) => {
           <button onClick={clearAllFilters} className="clear-filters-btn">
             🗑️ Limpiar Filtros
           </button>
+          {/* Indicador del estado del WebSocket */}
+          <div className="socket-status">
+            <span className={`status-indicator ${socketConnected ? 'connected' : 'disconnected'}`}>
+              {socketConnected ? '🔌' : '❌'}
+            </span>
+            <span className="status-text">
+              WebSocket: {socketConnected ? 'Conectado' : 'Desconectado'}
+            </span>
+          </div>
         </div>
       </div>
 
