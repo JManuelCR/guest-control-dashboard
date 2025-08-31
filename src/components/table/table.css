@@ -2,18 +2,22 @@
 .table-container {
     width: 100%;
     max-width: 100%;
-    overflow-x: auto;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     background: white;
+    overflow: hidden; /* Ocultar overflow del contenedor principal */
 }
 
-/* Filtros de tabla */
+/* Filtros de tabla - FIJOS */
 .table-filters {
     padding: 16px;
     border-bottom: 1px solid #e2e8f0;
     background: #f8fafc;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    max-width: calc(100% - 32px)
 }
 
 .search-section {
@@ -55,15 +59,30 @@
     transform: translateY(-1px);
 }
 
+/* Contenedor de la tabla con scroll horizontal */
+.table-scroll-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+}
+
 /* Estilos de la tabla */
 table {
     border-collapse: collapse;
     width: 100%;
     min-width: 1200px; /* Ancho mínimo para evitar que se comprima demasiado */
     font-size: 14px;
+    margin: 0; /* Eliminar márgenes */
 }
 
-/* Encabezados de la tabla */
+/* Encabezados de la tabla - FIJOS */
+table thead {
+    position: sticky;
+    top: 0;
+    z-index: 15;
+    background: white;
+}
+
 table thead tr th {
     background: linear-gradient(135deg, #5c656e 0%, #4a5568 100%);
     color: white;
@@ -71,12 +90,12 @@ table thead tr th {
     text-wrap: nowrap;
     padding: 12px 8px;
     font-weight: 600;
-    position: sticky;
-    top: 0;
-    z-index: 10;
     border: 1px solid #4a5568;
     white-space: nowrap;
     min-width: 120px; /* Ancho mínimo para cada columna */
+    position: sticky;
+    top: 0;
+    z-index: 15;
 }
 
 /* Contenido del header con filtros */
@@ -86,7 +105,6 @@ table thead tr th {
     gap: 8px;
     align-items: center;
     background: transparent;
-
 }
 
 .header-content span {
@@ -130,9 +148,8 @@ th, td {
     padding: 10px 8px;
     text-align: center;
     vertical-align: middle;
-    font-size: 16px;
+    font-size: 18px;
 }
-
 
 /* Cuerpo de la tabla */
 tbody tr {
@@ -153,7 +170,7 @@ tbody tr:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Contenedor de paginación */
+/* Contenedor de paginación - FIJO */
 .pagination-container {
     display: flex;
     justify-content: space-between;
@@ -162,6 +179,10 @@ tbody tr:hover {
     background: #f8fafc;
     border-top: 1px solid #e2e8f0;
     border-radius: 0 0 8px 8px;
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+    width: 100%;
 }
 
 .pagination-info {
@@ -217,33 +238,22 @@ tbody tr:hover {
     font-size: 14px;
 }
 
-.rows-per-page select:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-    font-weight: 600;
-}
-
-.rows-per-page select option {
-    color: black;
-    font-weight: 400;
-}
-
 /* Scrollbar personalizado */
-.table-container::-webkit-scrollbar {
+.table-scroll-container::-webkit-scrollbar {
     height: 8px;
 }
 
-.table-container::-webkit-scrollbar-track {
+.table-scroll-container::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 4px;
 }
 
-.table-container::-webkit-scrollbar-thumb {
+.table-scroll-container::-webkit-scrollbar-thumb {
     background: #c1cce0;
     border-radius: 4px;
 }
 
-.table-container::-webkit-scrollbar-thumb:hover {
+.table-scroll-container::-webkit-scrollbar-thumb:hover {
     background: #a0aec0;
 }
 
@@ -296,15 +306,10 @@ tbody tr:hover {
 }
 
 /* Estilos para columnas específicas */
-.column-name { 
-    min-width: 150px; 
-    font-weight: 700;
-}
+.column-name { min-width: 150px; }
 .column-email { min-width: 200px; }
 .column-actions { min-width: 100px; }
-.column-status { min-width: 120px; font-weight: 700; }
-.column-status.enviada { background-color: #d1fae5; color: #065f46; }
-.column-status.pendiente { background-color: #58216bb8; color: #f0f0f0; }
+.column-status { min-width: 120px; }
 .column-number { min-width: 80px; }
 
 table tbody tr.sin-accion { background-color: white; }

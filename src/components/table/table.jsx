@@ -288,7 +288,7 @@ const Table = ({ guestList }) => {
 
   return (
     <div className="table-container">
-      {/* Barra de búsqueda y filtros */}
+      {/* Barra de búsqueda y filtros - FIJA */}
       <div className="table-filters">
         <div className="search-section">
           <input
@@ -304,286 +304,289 @@ const Table = ({ guestList }) => {
         </div>
       </div>
 
-      {/* Tabla */}
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <div className="header-content">
-                <span>Nombre</span>
-                <ColumnFilter
-                  column="guestName"
-                  value={columnFilters.guestName}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Invitado por</span>
-                <ColumnFilter
-                  column="guestSide"
-                  value={columnFilters.guestSide}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Relación</span>
-                <ColumnFilter
-                  column="guestRelationship"
-                  value={columnFilters.guestRelationship}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Tipo</span>
-                <ColumnFilter
-                  column="guestType"
-                  value={columnFilters.guestType}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Prioridad</span>
-                <ColumnFilter
-                  column="guestPriority"
-                  value={columnFilters.guestPriority}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Invitado</span>
-                <ColumnFilter
-                  column="guestInvited"
-                  value={columnFilters.guestInvited}
-                  onChange={updateColumnFilter}
-                  type="select"
-                  options={[
-                    { value: 'all', label: 'Todos' },
-                    { value: 'YES', label: 'Sí' },
-                    { value: 'NO', label: 'No' }
-                  ]}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Pases</span>
-                <ColumnFilter
-                  column="guestPassesNumberToRecibe"
-                  value={columnFilters.guestPassesNumberToRecibe}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Probabilidad</span>
-                <ColumnFilter
-                  column="guestProbability"
-                  value={columnFilters.guestProbability}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Asistirá</span>
-                <ColumnFilter
-                  column="guestParticipation"
-                  value={columnFilters.guestParticipation}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Contacto</span>
-                <ColumnFilter
-                  column="guestPrimaryContact"
-                  value={columnFilters.guestPrimaryContact}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Contacto Sec.</span>
-                <ColumnFilter
-                  column="guestSecondaryContact"
-                  value={columnFilters.guestSecondaryContact}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Inv. Impresa</span>
-                <ColumnFilter
-                  column="guestInvitationDelivered"
-                  value={columnFilters.guestInvitationDelivered}
-                  onChange={updateColumnFilter}
-                  type="select"
-                  options={[
-                    { value: 'all', label: 'Todos' },
-                    { value: 'true', label: 'Sí' },
-                    { value: 'false', label: 'No' }
-                  ]}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Idioma</span>
-                <ColumnFilter
-                  column="guestLanguage"
-                  value={columnFilters.guestLanguage}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Pollo</span>
-                <ColumnFilter
-                  column="guestChickenCountDesire"
-                  value={columnFilters.guestChickenCountDesire}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Cerdo</span>
-                <ColumnFilter
-                  column="guestPorkCountDesire"
-                  value={columnFilters.guestPorkCountDesire}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Foráneo</span>
-                <ColumnFilter
-                  column="guestForeigner"
-                  value={columnFilters.guestForeigner}
-                  onChange={updateColumnFilter}
-                  type="select"
-                  options={[
-                    { value: 'all', label: 'Todos' },
-                    { value: 'YES', label: 'Sí' },
-                    { value: 'NO', label: 'No' }
-                  ]}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Transporte</span>
-                <ColumnFilter
-                  column="guestTransportCount"
-                  value={columnFilters.guestTransportCount}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Personas Trans.</span>
-                <ColumnFilter
-                  column="guestTransportCount"
-                  value={columnFilters.guestTransportCount}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Link Invitación</span>
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Mesa</span>
-                <ColumnFilter
-                  column="guestTableNumber"
-                  value={columnFilters.guestTableNumber}
-                  onChange={updateColumnFilter}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Estado del envío de la invitación</span>
-                <ColumnFilter
-                  column="guestInvitationSent"
-                  value={columnFilters.guestInvitationDelivered}
-                  onChange={updateColumnFilter}
-                  type="select"
-                  options={[
-                    { value: 'all', label: 'Todos' },
-                    { value: 'true', label: 'Sí' },
-                    { value: 'false', label: 'No' }
-                  ]}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
-                <span>Acciones</span>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredAndPaginatedData.paginated.map((guest, index) => (
-            <tr key={guest.guestInvitationId || index} className={getRowClassesFromDict(guest)}>
-              <td className="column-name">{guest.guestName || 'N/A'}</td>
-              <td>{guest.guestSide || 'N/A'}</td>
-              <td>{guest.guestRelationship || 'N/A'}</td>
-              <td>{guest.guestType || 'N/A'}</td>
-              <td>{guest.guestPriority || 'N/A'}</td>
-              <td>{guest.guestInvited === 'YES' ? '✅ Sí' : '❌ No'}</td>
-              <td className="column-number">{guest.guestPassesNumberToRecibe || '0'}</td>
-              <td>{guest.guestProbability || 'N/A'}</td>
-              <td className="column-status">
-                {!guest.guestInvitationDelivered ? '⏳ Pendiente' : 
-                 guest.guestParticipation > 0 && guest.guestInvitationResponse ? '✅ Sí' : '❌ No'}
-              </td>
-              <td className="column-email">{guest.guestPrimaryContact || 'N/A'}</td>
-              <td className="column-email">{guest.guestSecondaryContact || 'N/A'}</td>
-              <td>{guest.guestInvitationDelivered ? '✅ Sí' : '❌ No'}</td>
-              <td>{guest.guestLanguage === 'Espanol' ? '🇪🇸 Español' : guest.guestLanguage || 'N/A'}</td>
-              <td className="column-number">{guest.guestChickenCountDesire || '0'}</td>
-              <td className="column-number">{guest.guestPorkCountDesire || '0'}</td>
-              <td>{guest.guestForeigner === 'YES' ? '🌍 Sí' : '🏠 No'}</td>
-              <td>{guest.guestTransportCount > 0 ? '🚗 Sí' : '❌ No'}</td>
-              <td className="column-number">{guest.guestTransportCount || '0'}</td>
-              <td className="column-actions">
-                <InvitationLink invitationId={guest.guestInvitationId} />
-              </td>
-              <td className="column-number">{guest.guestTableNumber || 'N/A'}</td>
-              <td className={getStatusCellClassesFromDict(guest)}>
-                {!guest.guestInvitationDelivered ? '⏳ Pendiente' : '✅ Enviada'}
-              </td>
-              <td className="column-actions">
-                <MarkAsInvited userId={guest.guestInvitationId} guestData={guest} />
-              </td>
+      {/* Contenedor de scroll horizontal para la tabla */}
+      <div className="table-scroll-container">
+        {/* Tabla */}
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <div className="header-content">
+                  <span>Nombre</span>
+                  <ColumnFilter
+                    column="guestName"
+                    value={columnFilters.guestName}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Invitado por</span>
+                  <ColumnFilter
+                    column="guestSide"
+                    value={columnFilters.guestSide}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Relación</span>
+                  <ColumnFilter
+                    column="guestRelationship"
+                    value={columnFilters.guestRelationship}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Tipo</span>
+                  <ColumnFilter
+                    column="guestType"
+                    value={columnFilters.guestType}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Prioridad</span>
+                  <ColumnFilter
+                    column="guestPriority"
+                    value={columnFilters.guestPriority}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Invitado</span>
+                  <ColumnFilter
+                    column="guestInvited"
+                    value={columnFilters.guestInvited}
+                    onChange={updateColumnFilter}
+                    type="select"
+                    options={[
+                      { value: 'all', label: 'Todos' },
+                      { value: 'YES', label: 'Sí' },
+                      { value: 'NO', label: 'No' }
+                    ]}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Pases</span>
+                  <ColumnFilter
+                    column="guestPassesNumberToRecibe"
+                    value={columnFilters.guestPassesNumberToRecibe}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Probabilidad</span>
+                  <ColumnFilter
+                    column="guestProbability"
+                    value={columnFilters.guestProbability}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Asistirá</span>
+                  <ColumnFilter
+                    column="guestParticipation"
+                    value={columnFilters.guestParticipation}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Contacto</span>
+                  <ColumnFilter
+                    column="guestPrimaryContact"
+                    value={columnFilters.guestPrimaryContact}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Contacto Sec.</span>
+                  <ColumnFilter
+                    column="guestSecondaryContact"
+                    value={columnFilters.guestSecondaryContact}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Inv. Impresa</span>
+                  <ColumnFilter
+                    column="guestInvitationDelivered"
+                    value={columnFilters.guestInvitationDelivered}
+                    onChange={updateColumnFilter}
+                    type="select"
+                    options={[
+                      { value: 'all', label: 'Todos' },
+                      { value: 'true', label: 'Sí' },
+                      { value: 'false', label: 'No' }
+                    ]}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Idioma</span>
+                  <ColumnFilter
+                    column="guestLanguage"
+                    value={columnFilters.guestLanguage}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Pollo</span>
+                  <ColumnFilter
+                    column="guestChickenCountDesire"
+                    value={columnFilters.guestChickenCountDesire}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Cerdo</span>
+                  <ColumnFilter
+                    column="guestPorkCountDesire"
+                    value={columnFilters.guestPorkCountDesire}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Foráneo</span>
+                  <ColumnFilter
+                    column="guestForeigner"
+                    value={columnFilters.guestForeigner}
+                    onChange={updateColumnFilter}
+                    type="select"
+                    options={[
+                      { value: 'all', label: 'Todos' },
+                      { value: 'YES', label: 'Sí' },
+                      { value: 'NO', label: 'No' }
+                    ]}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Transporte</span>
+                  <ColumnFilter
+                    column="guestTransportCount"
+                    value={columnFilters.guestTransportCount}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Personas Trans.</span>
+                  <ColumnFilter
+                    column="guestTransportCount"
+                    value={columnFilters.guestTransportCount}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Link Invitación</span>
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Mesa</span>
+                  <ColumnFilter
+                    column="guestTableNumber"
+                    value={columnFilters.guestTableNumber}
+                    onChange={updateColumnFilter}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Estado del envío de la invitación</span>
+                  <ColumnFilter
+                    column="guestInvitationSent"
+                    value={columnFilters.guestInvitationDelivered}
+                    onChange={updateColumnFilter}
+                    type="select"
+                    options={[
+                      { value: 'all', label: 'Todos' },
+                      { value: 'true', label: 'Sí' },
+                      { value: 'false', label: 'No' }
+                    ]}
+                  />
+                </div>
+              </th>
+              <th>
+                <div className="header-content">
+                  <span>Acciones</span>
+                </div>
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredAndPaginatedData.paginated.map((guest, index) => (
+              <tr key={guest.guestInvitationId || index} className={getRowClassesFromDict(guest)}>
+                <td className="column-name">{guest.guestName || 'N/A'}</td>
+                <td>{guest.guestSide || 'N/A'}</td>
+                <td>{guest.guestRelationship || 'N/A'}</td>
+                <td>{guest.guestType || 'N/A'}</td>
+                <td>{guest.guestPriority || 'N/A'}</td>
+                <td>{guest.guestInvited === 'YES' ? '✅ Sí' : '❌ No'}</td>
+                <td className="column-number">{guest.guestPassesNumberToRecibe || '0'}</td>
+                <td>{guest.guestProbability || 'N/A'}</td>
+                <td className="column-status">
+                  {!guest.guestInvitationDelivered ? '⏳ Pendiente' : 
+                   guest.guestParticipation > 0 && guest.guestInvitationResponse ? '✅ Sí' : '❌ No'}
+                </td>
+                <td className="column-email">{guest.guestPrimaryContact || 'N/A'}</td>
+                <td className="column-email">{guest.guestSecondaryContact || 'N/A'}</td>
+                <td>{guest.guestInvitationDelivered ? '✅ Sí' : '❌ No'}</td>
+                <td>{guest.guestLanguage === 'Espanol' ? '🇪🇸 Español' : guest.guestLanguage || 'N/A'}</td>
+                <td className="column-number">{guest.guestChickenCountDesire || '0'}</td>
+                <td className="column-number">{guest.guestPorkCountDesire || '0'}</td>
+                <td>{guest.guestForeigner === 'YES' ? '🌍 Sí' : '🏠 No'}</td>
+                <td>{guest.guestTransportCount > 0 ? '🚗 Sí' : '❌ No'}</td>
+                <td className="column-number">{guest.guestTransportCount || '0'}</td>
+                <td className="column-actions">
+                  <InvitationLink invitationId={guest.guestInvitationId} />
+                </td>
+                <td className="column-number">{guest.guestTableNumber || 'N/A'}</td>
+                <td className={getStatusCellClassesFromDict(guest)}>
+                  {!guest.guestInvitationDelivered ? '⏳ Pendiente' : '✅ Enviada'}
+                </td>
+                <td className="column-actions">
+                  <MarkAsInvited userId={guest.guestInvitationId} guestData={guest} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      {/* Paginación */}
+      {/* Paginación - FIJA */}
       <div className="pagination-container">
         <div className="pagination-info">
           Mostrando {((currentPage - 1) * rowsPerPage) + 1} a {Math.min(currentPage * rowsPerPage, filteredAndPaginatedData.totalFiltered)} de {filteredAndPaginatedData.totalFiltered} invitados
