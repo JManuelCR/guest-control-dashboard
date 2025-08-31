@@ -9,9 +9,14 @@ const GuestRejectCounter = () => {
       const shouldCount =
         guest.guestInvited === "YES" &&
         guest.guestInvitationResponse &&
-        guest.guestInvitationDelivered &&
-        guest.guestParticipation === 0;
-      return acc + (shouldCount ? guest.guestPassesNumberToRecibe : 0);
+        guest.guestInvitationDelivered;
+
+      const totalPasses =
+        guest.guestParticipation === 0
+          ? guest.guestPassesNumberToRecibe
+          : guest.guestPassesNumberToRecibe - guest.guestParticipation;
+
+      return acc + (shouldCount ? totalPasses : 0);
     }, 0);
   };
 
