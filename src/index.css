@@ -34,3 +34,8 @@ h1 {
     background-color: #ffffff;
   }
 }
+
+/* guest counter height */
+.guest-counter {
+  min-height: -webkit-fill-available
+}
