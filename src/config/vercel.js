@@ -53,9 +53,9 @@ export const VERCEL_CONFIG = {
     
     // 1. Intentar obtener desde VITE_API_URL (variable de entorno)
     if (import.meta.env.VITE_API_URL) {
-      console.log(import.meta.env)
       console.log('✅ VITE_API_URL encontrada:', import.meta.env.VITE_API_URL);
-      return import.meta.env.VITE_API_URL;
+      // Asegurar que la URL no tenga barras duplicadas
+      return import.meta.env.VITE_API_URL.replace(/\/$/, '');
     }
     
     // 2. Si estamos en producción o Vercel

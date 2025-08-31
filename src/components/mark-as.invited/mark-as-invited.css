@@ -1,0 +1,98 @@
+.mark-as-invited-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* Estado: No invitado */
+.mark-as-invited-btn.not-invited {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.mark-as-invited-btn.not-invited:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+}
+
+/* Estado: Ya invitado */
+.mark-as-invited-btn.invited {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.mark-as-invited-btn.invited:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.4);
+}
+
+/* Estado: Cargando */
+.mark-as-invited-btn.loading {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.mark-as-invited-btn.loading:hover {
+  transform: none;
+  box-shadow: 0 2px 4px rgba(107, 114, 128, 0.3);
+}
+
+/* Deshabilitado */
+.mark-as-invited-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Iconos */
+.mark-as-invited-btn .icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.mark-as-invited-btn .text {
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mark-as-invited-btn {
+    min-width: 100px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  
+  .mark-as-invited-btn .text {
+    font-size: 10px;
+  }
+}
+
+/* Animación de carga */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.mark-as-invited-btn.loading .icon {
+  animation: pulse 1.5s ease-in-out infinite;
+}

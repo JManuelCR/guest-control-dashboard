@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { useData } from '../../context/userData';
+import { useContext } from 'react';
+import { DataContext } from '../../context/DataContext';
 import { useGuestSocket } from '../../hooks/useGuestSocket';
 import Table from "../../components/table/table";
 import WebSocketStatus from '../../components/websocket-status/WebSocketStatus';
@@ -8,7 +9,7 @@ import GuestCounter from '../../components/guest-counter/GuestCounter';
 import './dashboard.css';
 
 const Dashboard = () => {
-  const data = useData();
+  const data = useContext(DataContext);
   const { reconnect } = useGuestSocket();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
