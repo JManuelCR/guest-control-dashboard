@@ -1,5 +1,5 @@
 import './table.css';
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import InvitationLink from '../invitation-link/invitationLink';
 import MarkAsInvited from '../mark-as.invited/mark-as-invited';
 
@@ -7,6 +7,7 @@ const Table = ({ guestList }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
+  const [forceUpdate, setForceUpdate] = useState(0); // Estado para forzar re-renders
   
   // Estado para filtros de columnas
   const [columnFilters, setColumnFilters] = useState({
@@ -69,19 +70,42 @@ const Table = ({ guestList }) => {
     }
   }), []);
 
-  // Función para obtener clases de fila usando el diccionario
+  // Función para forzar actualización de la tabla - MOVIDA AQUÍ
+  const refreshTable = useCallback(() => {
+    setForceUpdate(prev => prev + 1);
+  }, []);
+
+  // Función para manejar cambios en el estado de los invitados
+  const handleGuestStatusChange = useCallback((userId, updateData) => {
+    // Forzar actualización de la tabla
+    refreshTable();
+    
+    // También puedes actualizar el estado local si es necesario
+    console.log(`Estado del invitado ${userId} actualizado:`, updateData);
+  }, [refreshTable]);
+
+  // Función para obtener clases de fila usando el diccionario - MEJORADA
   const getRowClassesFromDict = useCallback((guest) => {
-    if (!guest.guestInvitationDelivered) {
+    // Verificar que el guest tenga las propiedades necesarias
+    if (!guest) return classDictionary.row.sinAccion;
+    
+    const isDelivered = guest.guestInvitationDelivered === true;
+    const hasResponse = guest.guestInvitationResponse === true;
+    
+    // Lógica mejorada para determinar el estado
+    if (!isDelivered) {
       return classDictionary.row.sinAccion;
-    } else if (guest.guestInvitationDelivered && guest.guestInvitationResponse) {
-      return classDictionary.row.sinContestar;
-    } else {
+    } else if (isDelivered && hasResponse) {
       return classDictionary.row.contestada;
+    } else {
+      return classDictionary.row.sinContestar;
     }
   }, [classDictionary.row]);
 
-  // Función para obtener clases de celda de estado usando el diccionario
+  // Función para obtener clases de celda de estado usando el diccionario - MEJORADA
   const getStatusCellClassesFromDict = useCallback((guest) => {
+    if (!guest) return classDictionary.cell.status.base;
+    
     const baseClass = classDictionary.cell.status.base;
     const statusClass = guest.guestInvitationDelivered 
       ? classDictionary.cell.status.enviada 
@@ -124,6 +148,11 @@ const Table = ({ guestList }) => {
     setSearchTerm('');
     setCurrentPage(1);
   }, []);
+
+  // Efecto para escuchar cambios en guestList
+  useEffect(() => {
+    refreshTable();
+  }, [guestList, refreshTable]);
 
   // Filtrar y paginar los datos - optimizado con useMemo
   const filteredAndPaginatedData = useMemo(() => {
@@ -170,7 +199,7 @@ const Table = ({ guestList }) => {
       totalPages: Math.ceil(filtered.length / rowsPerPage),
       totalFiltered: filtered.length
     };
-  }, [guestList, currentPage, rowsPerPage, searchTerm, columnFilters]);
+  }, [guestList, currentPage, rowsPerPage, searchTerm, columnFilters, forceUpdate]); // Agregar forceUpdate
 
   // Cambiar página - optimizado con useCallback
   const handlePageChange = useCallback((page) => {
@@ -578,7 +607,11 @@ const Table = ({ guestList }) => {
                   {!guest.guestInvitationDelivered ? '⏳ Pendiente' : '✅ Enviada'}
                 </td>
                 <td className="column-actions">
-                  <MarkAsInvited userId={guest.guestInvitationId} guestData={guest} />
+                  <MarkAsInvited 
+                    userId={guest.guestInvitationId} 
+                    guestData={guest} 
+                    onStatusChange={handleGuestStatusChange}
+                  />
                 </td>
               </tr>
             ))}

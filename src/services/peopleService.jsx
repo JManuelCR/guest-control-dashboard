@@ -5,11 +5,11 @@ const getGuests = () => {
 }
 
 const getGuestById = (id) => {
-    return API.get(`guest/guests/${id}`);
+    return API.get(`guest/${id}`);
 }
 
 const patchGuest = (id, data) => {
-    return API.patch(`guest/guests/${id}`, data);
+    return API.patch(`guest/${id}`, data);
 }
 
 export { getGuests, getGuestById, patchGuest };

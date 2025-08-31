@@ -151,23 +151,50 @@ th, td {
     font-size: 18px;
 }
 
-/* Cuerpo de la tabla */
-tbody tr {
-    transition: background-color 0.2s ease;
+/* Estados de fila con transiciones suaves */
+table tbody tr {
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-tbody tr:nth-child(even) {
-    background-color: #f8fafc;
+table tbody tr.sin-accion { 
+  background-color: white; 
 }
 
-tbody tr:nth-child(odd) {
-    background-color: #ffffff;
+table tbody tr.sin-contestar { 
+  background-color: #e0e63296; 
 }
 
-tbody tr:hover {
-    background-color: #e2e8f0;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+table tbody tr.contestada { 
+  background-color: #43e5917f; 
+}
+
+/* Estados hover mejorados */
+table tbody tr.sin-accion:hover { 
+  background-color: #f8f9fa; 
+  transform: translateY(-1px);
+}
+
+table tbody tr.sin-contestar:hover { 
+  background-color: #d4d82a; 
+  transform: translateY(-1px);
+}
+
+table tbody tr.contestada:hover { 
+  background-color: #2dd47e; 
+  transform: translateY(-1px);
+}
+
+/* Estados activos para mejor feedback visual */
+table tbody tr.sin-accion:active { 
+  background-color: #e9ecef; 
+}
+
+table tbody tr.sin-contestar:active { 
+  background-color: #c3c92a; 
+}
+
+table tbody tr.contestada:active { 
+  background-color: #28a745; 
 }
 
 /* Contenedor de paginación - FIJO */
@@ -311,7 +338,3 @@ tbody tr:hover {
 .column-actions { min-width: 100px; }
 .column-status { min-width: 120px; }
 .column-number { min-width: 80px; }
-
-table tbody tr.sin-accion { background-color: white; }
-table tbody tr.sin-contestar { background-color: #e0e63296; }
-table tbody tr.contestada { background-color: #43e5917f;  }

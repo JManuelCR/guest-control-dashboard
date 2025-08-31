@@ -2,7 +2,7 @@ import './mark-as-invited.css';
 import { useContext, useState } from 'react';
 import { DataContext } from '../../context/DataContext';
 
-const MarkAsInvited = ({ userId, guestData }) => {
+const MarkAsInvited = ({ userId, guestData, onStatusChange }) => {
   const { updateGuest } = useContext(DataContext);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -39,6 +39,11 @@ const MarkAsInvited = ({ userId, guestData }) => {
       
       // Actualizar el estado local
       setIsInvited(!isInvited);
+      
+      // Notificar al componente padre del cambio
+      if (onStatusChange) {
+        onStatusChange(userId, updateData);
+      }
       
     } catch (error) {
       console.error('Error al actualizar el estado del invitado:', error);
