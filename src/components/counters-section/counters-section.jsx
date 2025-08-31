@@ -6,7 +6,7 @@ import GuestPorkCounter from '../guest-pork-counter/GuestPorkCounter';
 import GuestTrasportationCounter from '../guest-tranportation counter/GuestTrasportationCounter';
 import GuestRejectCounter from '../guest-reject-invitation-counter/GuestRejectCounter';
 
-const countersSection = () => {
+const CountersSection = () => {
     return (
         <section className="counters-section">
             <GuestCounter />
@@ -19,4 +19,4 @@ const countersSection = () => {
     )
 }
 
-export default countersSection;
+export default CountersSection;

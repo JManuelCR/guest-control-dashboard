@@ -58,8 +58,8 @@ const Dashboard = () => {
       </div>
       
       <div className="dashboard-stats">
-        <GuestCounter />
-        <WebSocketStatus />
+          <GuestCounter />
+          <WebSocketStatus />
       </div>
       
       <div className="dashboard-content">
