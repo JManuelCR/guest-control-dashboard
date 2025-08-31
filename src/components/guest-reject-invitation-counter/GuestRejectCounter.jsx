@@ -11,7 +11,7 @@ const GuestRejectCounter = () => {
         guest.guestInvitationResponse &&
         guest.guestInvitationDelivered &&
         guest.guestParticipation === 0;
-      return acc + (shouldCount ? guest.guestParticipation : 0);
+      return acc + (shouldCount ? guest.guestPassesNumberToRecibe : 0);
     }, 0);
   };
 
