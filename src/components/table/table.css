@@ -300,5 +300,11 @@ tbody tr:hover {
 }
 .column-email { min-width: 200px; }
 .column-actions { min-width: 100px; }
-.column-status { min-width: 120px; }
+.column-status { min-width: 120px; font-weight: 700; }
+.column-status.enviada { background-color: #d1fae5; color: #065f46; }
+.column-status.pendiente { background-color: #58216bb8; color: #f0f0f0; }
 .column-number { min-width: 80px; }
+
+table tbody tr.sin-accion { background-color: white; }
+table tbody tr.sin-contestar { background-color: #e0e63296; }
+table tbody tr.contestada { background-color: #43e5917f;  }

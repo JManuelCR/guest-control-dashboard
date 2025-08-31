@@ -31,6 +31,64 @@ const Table = ({ guestList }) => {
     guestTableNumber: ''
   });
 
+  // Diccionario completo de clases para diferentes estados
+  const classDictionary = useMemo(() => ({
+    // Estados de fila
+    row: {
+      sinAccion: 'sin-accion',
+      sinContestar: 'sin-contestar',
+      contestada: 'contestada'
+    },
+    
+    // Estados de celda
+    cell: {
+      status: {
+        base: 'column-status',
+        enviada: 'enviada',
+        pendiente: 'pendiente'
+      },
+      actions: 'column-actions',
+      name: 'column-name',
+      email: 'column-email',
+      number: 'column-number'
+    },
+    
+    // Estados de invitación
+    invitation: {
+      delivered: 'delivered',
+      notDelivered: 'not-delivered',
+      sent: 'sent',
+      notSent: 'not-sent'
+    },
+    
+    // Estados de respuesta
+    response: {
+      answered: 'answered',
+      notAnswered: 'not-answered',
+      pending: 'pending'
+    }
+  }), []);
+
+  // Función para obtener clases de fila usando el diccionario
+  const getRowClassesFromDict = useCallback((guest) => {
+    if (!guest.guestInvitationDelivered) {
+      return classDictionary.row.sinAccion;
+    } else if (guest.guestInvitationDelivered && guest.guestInvitationResponse) {
+      return classDictionary.row.sinContestar;
+    } else {
+      return classDictionary.row.contestada;
+    }
+  }, [classDictionary.row]);
+
+  // Función para obtener clases de celda de estado usando el diccionario
+  const getStatusCellClassesFromDict = useCallback((guest) => {
+    const baseClass = classDictionary.cell.status.base;
+    const statusClass = guest.guestInvitationDelivered 
+      ? classDictionary.cell.status.enviada 
+      : classDictionary.cell.status.pendiente;
+    return `${baseClass} ${statusClass}`;
+  }, [classDictionary.cell.status]);
+
   // Función para actualizar filtros de columna - optimizada con useCallback
   const updateColumnFilter = useCallback((column, value) => {
     setColumnFilters(prev => ({
@@ -384,22 +442,6 @@ const Table = ({ guestList }) => {
             </th>
             <th>
               <div className="header-content">
-                <span>Inv. Enviada</span>
-                <ColumnFilter
-                  column="guestInvitationSent"
-                  value={columnFilters.guestInvitationSent}
-                  onChange={updateColumnFilter}
-                  type="select"
-                  options={[
-                    { value: 'all', label: 'Todos' },
-                    { value: 'true', label: 'Sí' },
-                    { value: 'false', label: 'No' }
-                  ]}
-                />
-              </div>
-            </th>
-            <th>
-              <div className="header-content">
                 <span>Idioma</span>
                 <ColumnFilter
                   column="guestLanguage"
@@ -481,7 +523,18 @@ const Table = ({ guestList }) => {
             </th>
             <th>
               <div className="header-content">
-                <span>Estado</span>
+                <span>Estado del envío de la invitación</span>
+                <ColumnFilter
+                  column="guestInvitationSent"
+                  value={columnFilters.guestInvitationDelivered}
+                  onChange={updateColumnFilter}
+                  type="select"
+                  options={[
+                    { value: 'all', label: 'Todos' },
+                    { value: 'true', label: 'Sí' },
+                    { value: 'false', label: 'No' }
+                  ]}
+                />
               </div>
             </th>
             <th>
@@ -493,7 +546,7 @@ const Table = ({ guestList }) => {
         </thead>
         <tbody>
           {filteredAndPaginatedData.paginated.map((guest, index) => (
-            <tr key={guest.guestInvitationId || index}>
+            <tr key={guest.guestInvitationId || index} className={getRowClassesFromDict(guest)}>
               <td className="column-name">{guest.guestName || 'N/A'}</td>
               <td>{guest.guestSide || 'N/A'}</td>
               <td>{guest.guestRelationship || 'N/A'}</td>
@@ -509,7 +562,6 @@ const Table = ({ guestList }) => {
               <td className="column-email">{guest.guestPrimaryContact || 'N/A'}</td>
               <td className="column-email">{guest.guestSecondaryContact || 'N/A'}</td>
               <td>{guest.guestInvitationDelivered ? '✅ Sí' : '❌ No'}</td>
-              <td>{guest.guestInvitationSent ? '✅ Sí' : '❌ No'}</td>
               <td>{guest.guestLanguage === 'Espanol' ? '🇪🇸 Español' : guest.guestLanguage || 'N/A'}</td>
               <td className="column-number">{guest.guestChickenCountDesire || '0'}</td>
               <td className="column-number">{guest.guestPorkCountDesire || '0'}</td>
@@ -520,7 +572,7 @@ const Table = ({ guestList }) => {
                 <InvitationLink invitationId={guest.guestInvitationId} />
               </td>
               <td className="column-number">{guest.guestTableNumber || 'N/A'}</td>
-              <td className="column-status">
+              <td className={getStatusCellClassesFromDict(guest)}>
                 {!guest.guestInvitationDelivered ? '⏳ Pendiente' : '✅ Enviada'}
               </td>
               <td className="column-actions">
