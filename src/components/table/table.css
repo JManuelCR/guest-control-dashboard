@@ -85,6 +85,8 @@ table thead tr th {
     flex-direction: column;
     gap: 8px;
     align-items: center;
+    background: transparent;
+
 }
 
 .header-content span {
@@ -128,7 +130,7 @@ th, td {
     padding: 10px 8px;
     text-align: center;
     vertical-align: middle;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 
