@@ -6,7 +6,6 @@ const API = axios.create({
   baseURL: API_CONFIG.getBaseUrl()
 });
 
-console.log('🚀 API Base URL final:', API.defaults.baseURL);
 
 // Interceptor para agregar el token a todas las peticiones
 API.interceptors.request.use(

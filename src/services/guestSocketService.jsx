@@ -37,12 +37,12 @@ class GuestSocketManager {
   // Configurar todos los event listeners
   setupEventListeners() {
     this.socket.on('connect', () => {
-      console.log('🔌 WebSocket CONECTADO - ID:', this.socket.id);
-      console.log('📡 Transporte:', this.socket.io.engine.transport.name);
+        // console.log('🔌 WebSocket CONECTADO - ID:', this.socket.id);
+        // console.log('📡 Transporte:', this.socket.io.engine.transport.name);
     });
 
     this.socket.on('disconnect', () => {
-      console.log('❌ WebSocket DESCONECTADO');
+      // console.log('❌ WebSocket DESCONECTADO');
     });
 
     this.socket.on('connect_error', (error) => {
@@ -50,7 +50,8 @@ class GuestSocketManager {
     });
 
     this.socket.on('reconnect', (attemptNumber) => {
-      console.log('🔄 WebSocket RECONECTADO - Intento:', attemptNumber);
+      attemptNumber
+      // console.log('🔄 WebSocket RECONECTADO - Intento:', attemptNumber);
     });
 
     this.socket.on('reconnect_error', (error) => {
@@ -63,28 +64,28 @@ class GuestSocketManager {
 
     // Eventos de invitados con logs detallados
     this.socket.on(SOCKET_CONFIG.EVENTS.GUESTS_FETCHED, (data) => {
-      console.log('📋 WebSocket: Invitados obtenidos:', data);
+      // console.log('📋 WebSocket: Invitados obtenidos:', data);
       if (this.callbacks.onGuestsFetched) {
         this.callbacks.onGuestsFetched(data);
       }
     });
 
     this.socket.on(SOCKET_CONFIG.EVENTS.GUEST_UPDATED, (data) => {
-      console.log('🔄 WebSocket: Invitado ACTUALIZADO:', data);
+      // console.log('🔄 WebSocket: Invitado ACTUALIZADO:', data);
       if (this.callbacks.onGuestUpdated) {
         this.callbacks.onGuestUpdated(data);
       }
     });
 
     this.socket.on(SOCKET_CONFIG.EVENTS.GUEST_ADDED, (data) => {
-      console.log('➕ WebSocket: Invitado AGREGADO:', data);
+      // console.log('➕ WebSocket: Invitado AGREGADO:', data);
       if (this.callbacks.onGuestAdded) {
         this.callbacks.onGuestAdded(data);
       }
     });
 
     this.socket.on(SOCKET_CONFIG.EVENTS.GUEST_REMOVED, (data) => {
-      console.log('➖ WebSocket: Invitado ELIMINADO:', data);
+      // console.log('➖ WebSocket: Invitado ELIMINADO:', data);
       if (this.callbacks.onGuestRemoved) {
         this.callbacks.onGuestRemoved(data);
       }
@@ -92,7 +93,8 @@ class GuestSocketManager {
 
     // Evento para confirmar que el servidor recibió la actualización
     this.socket.on('guest-update-confirmed', (data) => {
-      console.log('✅ WebSocket: Actualización confirmada por servidor:', data);
+      data
+      // console.log('✅ WebSocket: Actualización confirmada por servidor:', data);
     });
 
     // Evento para errores del servidor

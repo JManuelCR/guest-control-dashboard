@@ -85,7 +85,6 @@ const Table = ({ guestList }) => {
     refreshTable();
     
     // También puedes actualizar el estado local si es necesario
-    console.log(`Estado del invitado ${userId} actualizado:`, updateData);
   }, [refreshTable]);
 
   // Función para obtener clases de fila usando el diccionario - MEJORADA
