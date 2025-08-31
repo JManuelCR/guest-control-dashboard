@@ -9,6 +9,52 @@
     background: white;
 }
 
+/* Filtros de tabla */
+.table-filters {
+    padding: 16px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.search-section {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.global-search-input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.global-search-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.clear-filters-btn {
+    padding: 10px 16px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.clear-filters-btn:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
 /* Estilos de la tabla */
 table {
     border-collapse: collapse;
@@ -33,13 +79,58 @@ table thead tr th {
     min-width: 120px; /* Ancho mínimo para cada columna */
 }
 
+/* Contenido del header con filtros */
+.header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.header-content span {
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* Filtros de columna */
+.column-filter-input,
+.column-filter-select {
+    width: 100%;
+    max-width: 100px;
+    padding: 4px 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 11px;
+    background: white;
+    color: #374151;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.column-filter-input:focus,
+.column-filter-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.column-filter-input::placeholder {
+    color: #9ca3af;
+    font-size: 10px;
+}
+
+.column-filter-select {
+    cursor: pointer;
+}
+
 /* Celdas del cuerpo */
 th, td {
     border: 1px solid #e2e8f0;
     padding: 10px 8px;
     text-align: center;
     vertical-align: middle;
+    font-size: 14px;
 }
+
 
 /* Cuerpo de la tabla */
 tbody tr {
@@ -124,6 +215,17 @@ tbody tr:hover {
     font-size: 14px;
 }
 
+.rows-per-page select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    font-weight: 600;
+}
+
+.rows-per-page select option {
+    color: black;
+    font-weight: 400;
+}
+
 /* Scrollbar personalizado */
 .table-container::-webkit-scrollbar {
     height: 8px;
@@ -149,6 +251,20 @@ tbody tr:hover {
         border-radius: 4px;
     }
     
+    .table-filters {
+        padding: 12px;
+    }
+    
+    .search-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .clear-filters-btn {
+        align-self: center;
+        max-width: 200px;
+    }
+    
     .pagination-container {
         flex-direction: column;
         gap: 12px;
@@ -164,10 +280,24 @@ tbody tr:hover {
         padding: 6px 10px;
         font-size: 13px;
     }
+    
+    .header-content {
+        gap: 4px;
+    }
+    
+    .column-filter-input,
+    .column-filter-select {
+        max-width: 80px;
+        font-size: 10px;
+        padding: 2px 4px;
+    }
 }
 
 /* Estilos para columnas específicas */
-.column-name { min-width: 150px; }
+.column-name { 
+    min-width: 150px; 
+    font-weight: 700;
+}
 .column-email { min-width: 200px; }
 .column-actions { min-width: 100px; }
 .column-status { min-width: 120px; }

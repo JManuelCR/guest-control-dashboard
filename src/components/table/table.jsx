@@ -1,5 +1,5 @@
 import './table.css';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import InvitationLink from '../invitation-link/invitationLink';
 import MarkAsInvited from '../mark-as.invited/mark-as-invited';
 
@@ -7,17 +7,100 @@ const Table = ({ guestList }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Estado para filtros de columnas
+  const [columnFilters, setColumnFilters] = useState({
+    guestName: '',
+    guestSide: '',
+    guestRelationship: '',
+    guestType: '',
+    guestPriority: '',
+    guestInvited: '',
+    guestPassesNumberToRecibe: '',
+    guestProbability: '',
+    guestParticipation: '',
+    guestPrimaryContact: '',
+    guestSecondaryContact: '',
+    guestInvitationDelivered: '',
+    guestInvitationSent: '',
+    guestLanguage: '',
+    guestChickenCountDesire: '',
+    guestPorkCountDesire: '',
+    guestForeigner: '',
+    guestTransportCount: '',
+    guestTableNumber: ''
+  });
 
-  // Filtrar y paginar los datos
+  // Función para actualizar filtros de columna - optimizada con useCallback
+  const updateColumnFilter = useCallback((column, value) => {
+    setColumnFilters(prev => ({
+      ...prev,
+      [column]: value
+    }));
+    setCurrentPage(1); // Resetear a la primera página
+  }, []);
+
+  // Función para limpiar todos los filtros - optimizada con useCallback
+  const clearAllFilters = useCallback(() => {
+    setColumnFilters({
+      guestName: '',
+      guestSide: '',
+      guestRelationship: '',
+      guestType: '',
+      guestPriority: '',
+      guestInvited: '',
+      guestPassesNumberToRecibe: '',
+      guestProbability: '',
+      guestParticipation: '',
+      guestPrimaryContact: '',
+      guestSecondaryContact: '',
+      guestInvitationDelivered: '',
+      guestInvitationSent: '',
+      guestLanguage: '',
+      guestChickenCountDesire: '',
+      guestPorkCountDesire: '',
+      guestForeigner: '',
+      guestTransportCount: '',
+      guestTableNumber: ''
+    });
+    setSearchTerm('');
+    setCurrentPage(1);
+  }, []);
+
+  // Filtrar y paginar los datos - optimizado con useMemo
   const filteredAndPaginatedData = useMemo(() => {
-    // Filtrar por término de búsqueda
-    const filtered = guestList.filter(guest => 
+    // Filtrar por término de búsqueda general
+    let filtered = guestList.filter(guest => 
       guest.guestName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       guest.guestSide?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       guest.guestRelationship?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       guest.guestType?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       guest.guestPrimaryContact?.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    // Aplicar filtros de columna
+    Object.entries(columnFilters).forEach(([column, filterValue]) => {
+      if (filterValue && filterValue.trim() !== '') {
+        filtered = filtered.filter(guest => {
+          const guestValue = guest[column];
+          if (guestValue === null || guestValue === undefined) return false;
+          
+          // Filtrado especial para campos booleanos/estado
+          if (column === 'guestInvited') {
+            return filterValue === 'all' || guestValue === filterValue;
+          }
+          if (column === 'guestInvitationDelivered' || column === 'guestInvitationSent') {
+            return filterValue === 'all' || guestValue === (filterValue === 'true');
+          }
+          if (column === 'guestForeigner') {
+            return filterValue === 'all' || guestValue === filterValue;
+          }
+          
+          // Filtrado por texto
+          return guestValue.toString().toLowerCase().includes(filterValue.toLowerCase());
+        });
+      }
+    });
 
     // Calcular paginación
     const startIndex = (currentPage - 1) * rowsPerPage;
@@ -29,28 +112,28 @@ const Table = ({ guestList }) => {
       totalPages: Math.ceil(filtered.length / rowsPerPage),
       totalFiltered: filtered.length
     };
-  }, [guestList, currentPage, rowsPerPage, searchTerm]);
+  }, [guestList, currentPage, rowsPerPage, searchTerm, columnFilters]);
 
-  // Cambiar página
-  const handlePageChange = (page) => {
+  // Cambiar página - optimizado con useCallback
+  const handlePageChange = useCallback((page) => {
     setCurrentPage(page);
-  };
+  }, []);
 
-  // Cambiar filas por página
-  const handleRowsPerPageChange = (event) => {
+  // Cambiar filas por página - optimizado con useCallback
+  const handleRowsPerPageChange = useCallback((event) => {
     const newRowsPerPage = parseInt(event.target.value);
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1); // Resetear a la primera página
-  };
+  }, []);
 
-  // Resetear búsqueda
-  const handleSearchChange = (event) => {
+  // Resetear búsqueda - optimizado con useCallback
+  const handleSearchChange = useCallback((event) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1); // Resetear a la primera página
-  };
+  }, []);
 
-  // Generar botones de paginación
-  const generatePaginationButtons = () => {
+  // Generar botones de paginación - optimizado con useCallback
+  const generatePaginationButtons = useCallback(() => {
     const { totalPages } = filteredAndPaginatedData;
     const buttons = [];
     
@@ -103,7 +186,37 @@ const Table = ({ guestList }) => {
     );
 
     return buttons;
-  };
+  }, [filteredAndPaginatedData.totalPages, currentPage, handlePageChange]);
+
+  // Componente de filtro de columna - optimizado con useCallback
+  const ColumnFilter = useCallback(({ column, value, onChange, type = 'text', options = [] }) => {
+    if (type === 'select') {
+      return (
+        <select
+          value={value}
+          onChange={(e) => onChange(column, e.target.value)}
+          className="column-filter-select"
+        >
+          <option value="">Todos</option>
+          {options.map(option => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      );
+    }
+
+    return (
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(column, e.target.value)}
+        placeholder={`Filtrar ${column}...`}
+        className="column-filter-input"
+      />
+    );
+  }, []);
 
   if (!guestList || guestList.length === 0) {
     return (
@@ -117,55 +230,265 @@ const Table = ({ guestList }) => {
 
   return (
     <div className="table-container">
-      {/* Barra de búsqueda */}
-      <div style={{ 
-        padding: '16px', 
-        borderBottom: '1px solid #e2e8f0',
-        background: '#f8fafc'
-      }}>
-        <input
-          type="text"
-          placeholder="�� Buscar por nombre, lado, relación, tipo o contacto..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          style={{
-            width: '100%',
-            padding: '10px 12px',
-            border: '1px solid #d1d5db',
-            borderRadius: '6px',
-            fontSize: '14px',
-            outline: 'none'
-          }}
-        />
+      {/* Barra de búsqueda y filtros */}
+      <div className="table-filters">
+        <div className="search-section">
+          <input
+            type="text"
+            placeholder="🔍 Búsqueda general por nombre, lado, relación, tipo o contacto..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="global-search-input"
+          />
+          <button onClick={clearAllFilters} className="clear-filters-btn">
+            🗑️ Limpiar Filtros
+          </button>
+        </div>
       </div>
 
       {/* Tabla */}
       <table>
         <thead>
           <tr>
-            <th>Nombre</th>
-            <th>Invitado por</th>
-            <th>Relación</th>
-            <th>Tipo</th>
-            <th>Prioridad</th>
-            <th>Invitado</th>
-            <th>Pases</th>
-            <th>Probabilidad</th>
-            <th>Asistirá</th>
-            <th>Contacto</th>
-            <th>Contacto Sec.</th>
-            <th>Inv. Impresa</th>
-            <th>Inv. Enviada</th>
-            <th>Idioma</th>
-            <th>Pollo</th>
-            <th>Cerdo</th>
-            <th>Foráneo</th>
-            <th>Transporte</th>
-            <th>Personas Trans.</th>
-            <th>Link Invitación</th>
-            <th>Mesa</th>
-            <th>Estado</th>
-            <th>Acciones</th>
+            <th>
+              <div className="header-content">
+                <span>Nombre</span>
+                <ColumnFilter
+                  column="guestName"
+                  value={columnFilters.guestName}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Invitado por</span>
+                <ColumnFilter
+                  column="guestSide"
+                  value={columnFilters.guestSide}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Relación</span>
+                <ColumnFilter
+                  column="guestRelationship"
+                  value={columnFilters.guestRelationship}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Tipo</span>
+                <ColumnFilter
+                  column="guestType"
+                  value={columnFilters.guestType}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Prioridad</span>
+                <ColumnFilter
+                  column="guestPriority"
+                  value={columnFilters.guestPriority}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Invitado</span>
+                <ColumnFilter
+                  column="guestInvited"
+                  value={columnFilters.guestInvited}
+                  onChange={updateColumnFilter}
+                  type="select"
+                  options={[
+                    { value: 'all', label: 'Todos' },
+                    { value: 'YES', label: 'Sí' },
+                    { value: 'NO', label: 'No' }
+                  ]}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Pases</span>
+                <ColumnFilter
+                  column="guestPassesNumberToRecibe"
+                  value={columnFilters.guestPassesNumberToRecibe}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Probabilidad</span>
+                <ColumnFilter
+                  column="guestProbability"
+                  value={columnFilters.guestProbability}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Asistirá</span>
+                <ColumnFilter
+                  column="guestParticipation"
+                  value={columnFilters.guestParticipation}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Contacto</span>
+                <ColumnFilter
+                  column="guestPrimaryContact"
+                  value={columnFilters.guestPrimaryContact}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Contacto Sec.</span>
+                <ColumnFilter
+                  column="guestSecondaryContact"
+                  value={columnFilters.guestSecondaryContact}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Inv. Impresa</span>
+                <ColumnFilter
+                  column="guestInvitationDelivered"
+                  value={columnFilters.guestInvitationDelivered}
+                  onChange={updateColumnFilter}
+                  type="select"
+                  options={[
+                    { value: 'all', label: 'Todos' },
+                    { value: 'true', label: 'Sí' },
+                    { value: 'false', label: 'No' }
+                  ]}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Inv. Enviada</span>
+                <ColumnFilter
+                  column="guestInvitationSent"
+                  value={columnFilters.guestInvitationSent}
+                  onChange={updateColumnFilter}
+                  type="select"
+                  options={[
+                    { value: 'all', label: 'Todos' },
+                    { value: 'true', label: 'Sí' },
+                    { value: 'false', label: 'No' }
+                  ]}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Idioma</span>
+                <ColumnFilter
+                  column="guestLanguage"
+                  value={columnFilters.guestLanguage}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Pollo</span>
+                <ColumnFilter
+                  column="guestChickenCountDesire"
+                  value={columnFilters.guestChickenCountDesire}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Cerdo</span>
+                <ColumnFilter
+                  column="guestPorkCountDesire"
+                  value={columnFilters.guestPorkCountDesire}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Foráneo</span>
+                <ColumnFilter
+                  column="guestForeigner"
+                  value={columnFilters.guestForeigner}
+                  onChange={updateColumnFilter}
+                  type="select"
+                  options={[
+                    { value: 'all', label: 'Todos' },
+                    { value: 'YES', label: 'Sí' },
+                    { value: 'NO', label: 'No' }
+                  ]}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Transporte</span>
+                <ColumnFilter
+                  column="guestTransportCount"
+                  value={columnFilters.guestTransportCount}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Personas Trans.</span>
+                <ColumnFilter
+                  column="guestTransportCount"
+                  value={columnFilters.guestTransportCount}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Link Invitación</span>
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Mesa</span>
+                <ColumnFilter
+                  column="guestTableNumber"
+                  value={columnFilters.guestTableNumber}
+                  onChange={updateColumnFilter}
+                />
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Estado</span>
+              </div>
+            </th>
+            <th>
+              <div className="header-content">
+                <span>Acciones</span>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
