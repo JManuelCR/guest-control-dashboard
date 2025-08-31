@@ -5,7 +5,7 @@ import { DataContext } from '../../context/DataContext';
 import { useGuestSocket } from '../../hooks/useGuestSocket';
 import Table from "../../components/table/table";
 import WebSocketStatus from '../../components/websocket-status/WebSocketStatus';
-import GuestCounter from '../../components/guest-counter/GuestCounter';
+import CountersSection from '../../components/counters-section/counters-section';
 import './dashboard.css';
 
 const Dashboard = () => {
@@ -58,7 +58,7 @@ const Dashboard = () => {
       </div>
       
       <div className="dashboard-stats">
-          <GuestCounter />
+          <CountersSection />
           <WebSocketStatus />
       </div>
       
