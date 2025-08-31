@@ -1,0 +1,13 @@
+.counters-section{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    margin: 10px;
+    max-width: 80vw;   
+}
