@@ -1,4 +1,4 @@
-import './counters-section.css';
+import './counter-section.css';
 import GuestCounter from '../guest-counter/GuestCounter';
 import GestAceptationCounter from '../guest-accept-invitation-counter/GestAceptationCounter';
 import GuestChickenCounter from '../guest-chiken-counter/GuestChickenCounter';
