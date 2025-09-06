@@ -43,8 +43,11 @@ export function useGuestSocket() {
       } else {
         setIsConnected(false);
         setConnectionStatus('disconnected');
+        // Intentar reconectar automáticamente
+        console.log('🔄 Intentando reconectar WebSocket...');
+        manager.connect();
       }
-    }, 2000); // Reducido de 1000ms a 2000ms
+    }, 5000); // Aumentado a 5 segundos para reducir carga
 
     return () => {
       if (connectionCheckRef.current) {
