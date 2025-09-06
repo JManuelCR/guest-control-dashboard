@@ -7,11 +7,17 @@ import GuestTransportationCounter from '../guest-tranportation counter/GuestTras
 import GuestRejectCounter from '../guest-reject-invitation-counter/GuestRejectCounter';
 import GuestChurchAssistance from '../guest-church-assitance/GuestChurchAssistance';
 import GuestReceptionAssistance from '../guest-reception-assitance/GuestReceptionAssistance';
+import GuestInvitationCounter from '../guest-invitation-counter/GuestInvitationCounter';
+import GuestInvitationSendedCounter from '../guest-invitations-sended-counter/GuestInvitationSendedCounter';
+import GuestSendRemainingInvitationCounter from '../guest-invitations-remaining-counter/GuestSendRemainingInvitationCounter';
 
 const CountersSection = () => {
     return (
         <section className="counters-section">
             <GuestCounter />
+            <GuestInvitationCounter />
+            <GuestInvitationSendedCounter />
+            <GuestSendRemainingInvitationCounter />
             <GestAcceptationCounter />
             <GuestRejectCounter />
             <GuestChurchAssistance />

@@ -122,7 +122,8 @@ const Table = ({ guestList }) => {
       ...prev,
       [column]: value
     }));
-    setCurrentPage(1); // Resetear a la primera página
+    
+    (1); // Resetear a la primera página
   }, []);
 
   // Función para limpiar todos los filtros - optimizada con useCallback
@@ -173,6 +174,8 @@ const Table = ({ guestList }) => {
       if (filterValue && filterValue.trim() !== '') {
         filtered = filtered.filter(guest => {
           const guestValue = guest[column];
+          console.log(guestValue);
+          console.log(column);
           if (guestValue === null || guestValue === undefined) return false;
           
           // Filtrado especial para campos booleanos/estado
@@ -184,6 +187,9 @@ const Table = ({ guestList }) => {
           }
           if (column === 'guestForeigner') {
             return filterValue === 'all' || guestValue === filterValue;
+          }
+          if(column === 'guestParticipation') {
+            return filterValue === 'all' || guestValue > 0;
           }
           
           // Filtrado por texto
