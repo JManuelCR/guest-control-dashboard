@@ -196,11 +196,17 @@ table tbody tr.sin-accion {
 }
 
 table tbody tr.sin-contestar { 
-  background-color: #e0e63296; 
+  background-color: #356ce296; 
 }
 
-table tbody tr.contestada { 
+table tbody tr.aceptada { 
   background-color: #43e5917f; 
+}
+table tbody tr.rechazada { 
+  background-color: #e019417f; 
+}
+table tbody tr.aceptada-parcial { 
+  background-color: #ecae327f; 
 }
 
 /* Estados hover mejorados */
@@ -210,12 +216,20 @@ table tbody tr.sin-accion:hover {
 }
 
 table tbody tr.sin-contestar:hover { 
-  background-color: #d4d82a; 
+  background-color: #356ce2; 
   transform: translateY(-1px);
 }
 
-table tbody tr.contestada:hover { 
+table tbody tr.aceptada:hover { 
   background-color: #2dd47e; 
+  transform: translateY(-1px);
+}
+table tbody tr.rechazada:hover { 
+  background-color: #e019417f; 
+  transform: translateY(-1px);
+}
+table tbody tr.aceptada-parcial:hover { 
+  background-color: #f1a307dd; 
   transform: translateY(-1px);
 }
 
@@ -225,11 +239,17 @@ table tbody tr.sin-accion:active {
 }
 
 table tbody tr.sin-contestar:active { 
-  background-color: #c3c92a; 
+  background-color: #1042ad; 
 }
 
-table tbody tr.contestada:active { 
+table tbody tr.aceptada:active { 
   background-color: #28a745; 
+}
+table tbody tr.rechazada:active { 
+  background-color: #e019417f; 
+}
+table tbody tr.aceptada-parcial:active { 
+  background-color: #f8a807ce; 
 }
 
 /* Contenedor de paginación - FIJO */
@@ -298,6 +318,10 @@ table tbody tr.contestada:active {
     border-radius: 4px;
     background: white;
     font-size: 14px;
+}
+.rows-per-page select option {
+    font-size: 14px;
+    color: #1a1b1c;
 }
 
 /* Scrollbar personalizado */

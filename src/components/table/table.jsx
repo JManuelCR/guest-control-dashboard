@@ -42,7 +42,9 @@ const Table = ({ guestList }) => {
     row: {
       sinAccion: 'sin-accion',
       sinContestar: 'sin-contestar',
-      contestada: 'contestada'
+      aceptada: 'aceptada',
+      rechazada: 'rechazada',
+      aceptadaParcial: 'aceptada-parcial'
     },
     
     // Estados de celda
@@ -94,12 +96,18 @@ const Table = ({ guestList }) => {
     
     const isDelivered = guest.guestInvitationDelivered === true;
     const hasResponse = guest.guestInvitationResponse === true;
+    const hasParticipation = guest.guestParticipation > 0;
+    const hasPartialParticipation = guest.guestParticipation < guest.guestPassesNumberToRecibe;
     
     // Lógica mejorada para determinar el estado
     if (!isDelivered) {
       return classDictionary.row.sinAccion;
-    } else if (isDelivered && hasResponse) {
-      return classDictionary.row.contestada;
+    } else if (isDelivered && hasResponse && hasParticipation && !hasPartialParticipation) {
+      return classDictionary.row.aceptada;
+    } else if (isDelivered && hasResponse && !hasParticipation) {
+      return classDictionary.row.rechazada;
+    } else if (isDelivered && hasResponse && hasPartialParticipation) {
+      return classDictionary.row.aceptadaParcial;
     } else {
       return classDictionary.row.sinContestar;
     }
