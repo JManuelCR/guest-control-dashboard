@@ -121,12 +121,21 @@ const TableAssignationInput = (({ guest, updatedGuest, positionAssignation = fal
         }
     })
 
-    return (
+    return positionAssignation ? (<input
+            className="input-assignation-table"
+            type="string"
+            placeholder= "Introduce la posición del invitado en la mesa"
+            value= {position}
+            onChange={assignationTable}
+            min={1}
+            max={29}
+            readOnly={userType !== 'admin'}
+        />):(
         <input
             className="input-assignation-table"
             type="number"
-            placeholder={positionAssignation ? "Introduce la posición del invitado en la mesa": "Introduce la mesa del invitado"}
-            value={positionAssignation? position : table}
+            placeholder= "Introduce la mesa del invitado"
+            value={table}
             onChange={assignationTable}
             min={1}
             max={29}
