@@ -375,16 +375,6 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                             </th>
                             <th>
                                 <div className="header-content">
-                                    <span>Invitado por</span>
-                                    <ColumnFilter
-                                        column="guestSude"
-                                        value={columnFilters.guestSide}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
                                     <span>Pases</span>
                                     <ColumnFilter
                                         column="guestPassesNumberToRecibe"
@@ -393,14 +383,14 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                                     />
                                 </div>
                             </th>
-                                <th>
+                            <th>
                                 <div className="header-content">
                                     <span>Asignación de mesa</span>
                                 </div>
                             </th>
                             <th>
                                 <div className="header-content">
-                                    <span>Asignación de ´posición en mesa</span>
+                                    <span>Asignación de posición en mesa</span>
                                 </div>
                             </th>
                             <th>
@@ -426,6 +416,16 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                             <th>
                                 <div className="header-content">
                                     <span>Crear Pase de entrada</span>
+                                </div>
+                            </th>
+                            <th>
+                                <div className="header-content">
+                                    <span>Invitado por</span>
+                                    <ColumnFilter
+                                        column="guestSude"
+                                        value={columnFilters.guestSide}
+                                        onChange={updateColumnFilter}
+                                    />
                                 </div>
                             </th>
                             <th>
@@ -478,16 +478,15 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                                 <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} /></td>
                                 <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} positionAssignation={true} /></td>
                                 <td className="column-number">{guest.guestTableNumber}</td>
-                                <td className="column-number">{guest.guestTablePosition}</td>
-                                <td className="column-actions"></td>
+                                <td className="column-actions">
+                                    <GenerateTicketQR guest={guest} />
+
+                                </td>
                                 <td className="column-side">{guest.guestSide || 'N/A'}</td>
                                 <td className="column-number">{guest.guestChickenCountDesire || '0'}</td>
                                 <td className="column-number">{guest.guestPorkCountDesire || '0'}</td>
                                 <td>{guest.guestTransportCount > 0 ? '🚗 Sí' : '❌ No'}</td>
                                 <td className="column-number">{guest.guestTransportCount}</td>
-                                <td>
-                                    <GenerateTicketQR guest={guest} />
-                                </td>
                             </tr>
                         ))}
                     </tbody>
