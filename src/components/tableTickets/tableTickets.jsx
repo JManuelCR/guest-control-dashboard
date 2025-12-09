@@ -393,6 +393,41 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                                     />
                                 </div>
                             </th>
+                                <th>
+                                <div className="header-content">
+                                    <span>Asignación de mesa</span>
+                                </div>
+                            </th>
+                            <th>
+                                <div className="header-content">
+                                    <span>Asignación de ´posición en mesa</span>
+                                </div>
+                            </th>
+                            <th>
+                                <div className="header-content">
+                                    <span>Número de mesa</span>
+                                    <ColumnFilter
+                                        column="guestTableNumber"
+                                        value={columnFilters.guestTableNumber}
+                                        onChange={updateColumnFilter}
+                                    />
+                                </div>
+                            </th>
+                            <th>
+                                <div className="header-content">
+                                    <span>Posición en mesa</span>
+                                    <ColumnFilter
+                                        column="guestTablePosition"
+                                        value={columnFilters.guestTablePosition}
+                                        onChange={updateColumnFilter}
+                                    />
+                                </div>
+                            </th>
+                            <th>
+                                <div className="header-content">
+                                    <span>Crear Pase de entrada</span>
+                                </div>
+                            </th>
                             <th>
                                 <div className="header-content">
                                     <span>Número de platillos con pollo</span>
@@ -433,58 +468,23 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                                     />
                                 </div>
                             </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Asignación de mesa</span>
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Asignación de ´posición en mesa</span>
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Número de mesa</span>
-                                    <ColumnFilter
-                                        column="guestTableNumber"
-                                        value={columnFilters.guestTableNumber}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Posición en mesa</span>
-                                    <ColumnFilter
-                                        column="guestTablePosition"
-                                        value={columnFilters.guestTablePosition}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Crear Pase de entrada</span>
-                                </div>
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredAndPaginatedData.paginated.map((guest, index) => (
                             <tr key={guest.guestInvitationId || index} className={getRowClassesFromDict(guest)}>
                                 <td className="column-name">{guest.guestName || 'N/A'}</td>
-                                <td className="column-side">{guest.guestSide || 'N/A'}</td>
                                 <td className="column-passes">{guest.guestChurchAssistantConfirmation > 0 ? guest.guestPassesNumberToRecibe : 0}</td>
-                                <td className="column-number">{guest.guestChickenCountDesire || '0'}</td>
-                                <td className="column-number">{guest.guestPorkCountDesire || '0'}</td>
-                                <td>{guest.guestTransportCount > 0 ? '🚗 Sí' : '❌ No'}</td>
-                                <td className="column-number">{guest.guestTransportCount}</td>
                                 <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} /></td>
                                 <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} positionAssignation={true} /></td>
                                 <td className="column-number">{guest.guestTableNumber}</td>
                                 <td className="column-number">{guest.guestTablePosition}</td>
                                 <td className="column-actions">
+                                <td className="column-side">{guest.guestSide || 'N/A'}</td>
+                                <td className="column-number">{guest.guestChickenCountDesire || '0'}</td>
+                                <td className="column-number">{guest.guestPorkCountDesire || '0'}</td>
+                                <td>{guest.guestTransportCount > 0 ? '🚗 Sí' : '❌ No'}</td>
+                                <td className="column-number">{guest.guestTransportCount}</td>
                                     <GenerateTicketQR guest={guest} />
                                 </td>
                             </tr>
