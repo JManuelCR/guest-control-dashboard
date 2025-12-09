@@ -1,20 +1,28 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { useContext } from 'react';
+import { jwtDecode } from 'jwt-decode';
+import { useContext, useEffect, useMemo, useState, memo, useCallback } from 'react';
 import { DataContext } from '../../context/DataContext';
 import { useGuestSocket } from '../../hooks/useGuestSocket';
 import Table from "../../components/table/table";
+import TableTickets from '../../components/tableTickets/tableTickets';
 import WebSocketStatus from '../../components/websocket-status/WebSocketStatus';
 import CountersSection from '../../components/counters-section/counters-section';
 import './dashboard.css';
+
+// Memoizar componentes para evitar re-renders innecesarios
+const MemoizedTable = memo(Table);
+const MemoizedTableTickets = memo(TableTickets);
 
 const Dashboard = () => {
   const data = useContext(DataContext);
   const { reconnect } = useGuestSocket();
   const { user, logout } = useAuth();
+  const [userType, setUserType] = useState('');
   const navigate = useNavigate();
+  const [guestList, setGuestList] = useState([]);
+  const [view, setView] = useState('allGuests');
   
-  // Verificación de seguridad
   if (!data) {
     return (
       <div className="loading-screen">
@@ -23,7 +31,7 @@ const Dashboard = () => {
       </div>
     );
   }
-
+  
   const { 
     guests, 
     loading, 
@@ -32,11 +40,33 @@ const Dashboard = () => {
     requestGuestsViaSocket
   } = data;
   
-  const handleLogout = () => {
+  useEffect(() => {
+    const token = localStorage.getItem('bearerToken');
+    const decodeToken = jwtDecode(token);
+    const userType = decodeToken.userType;
+  
+    setUserType(userType);
+    setGuestList(guests)
+  }, [guests]);
+
+  const handleLogout = useCallback(() => {
     logout();
     navigate('/');
-  };
-  
+  }, [logout, navigate]);
+
+  const updateGuestsList = useCallback((guest) => {
+    setGuestList(prev => prev.map( g => g.guestInvitationId === guest.guestInvitationId ? guest : g));
+  }, []);
+
+  const filteredForTickets = useMemo(() => 
+    guestList.filter(guest => guest.guestParticipation > 0),
+  [guestList]
+  );
+
+  const handleViewChange = useCallback((viewName) => {
+    setView(viewName);
+  }, []);
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">
@@ -97,14 +127,37 @@ const Dashboard = () => {
               <h2>Lista de Invitados</h2>
               <div className="table-info">
                 <span className="guest-count">
-                  Total: <strong>{guests.length}</strong> invitados
-                </span>
+                  Total: <strong>{guestList.length}</strong> invitados
+                </span> 
                 <span className="connection-status">
                   {socketConnected ? '🟢 En tiempo real' : '🔴 Sin conexión'}
                 </span>
               </div>
             </div>
-            <Table guestList={guests} />
+            {
+              userType === 'admin' ?
+              (<div className='adminTableView'>
+                <div className="button-group">
+                  <button 
+                    className={`buttonViewSelect ${view === 'allGuests' ? 'active' : ''}`} 
+                    onClick={() => handleViewChange('allGuests')}
+                  >
+                    📋 Todos los invitados
+                  </button>
+                  <button 
+                    className={`buttonViewSelect ${view === 'tickets' ? 'active' : ''}`} 
+                    onClick={() => handleViewChange('tickets')}
+                  >
+                    🎟️ Asignación de mesas
+                  </button>
+                </div>
+                {
+                  view === 'allGuests' ?
+                  <MemoizedTable guestList={guestList} /> : 
+                  <MemoizedTableTickets guestList={filteredForTickets} onGuestUpdated={updateGuestsList}/>  
+                }
+              </div>) : (<MemoizedTableTickets guestList={filteredForTickets} onGuestUpdated={updateGuestsList}/>)
+            }
           </div>
         )}
       </div>

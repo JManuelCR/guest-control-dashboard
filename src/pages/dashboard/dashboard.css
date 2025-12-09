@@ -241,3 +241,30 @@
     align-items: center;
   }
 }
+
+.adminTableView{
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ gap: 32px;
+}
+.adminTableView .button-group{
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.adminTableView .button-group .buttonViewSelect{
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.adminTableView .button-group .buttonViewSelect:hover{
+  background-color: white;
+  border: 2px solid rgb(96, 95, 95);
+  color: #0056b3;
+  font-size: 14px;
+  font-weight: 700;
+}

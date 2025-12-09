@@ -1,0 +1,168 @@
+.travel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .travel-image {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .globe-airplane-spin {
+    transform-origin: 50% 50%;
+    animation: spin-globe-airplane 4s linear infinite;
+  }
+  
+  @keyframes spin-globe-airplane {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  #globe_windmill__vVPNh {
+    animation: windmill-spin 2s linear infinite;
+    transform-origin: 332px 200px;
+  }
+  
+  #globe_countryObjects__Bd3lV{
+    animation: rotation-country 90s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  #globe_airplane1__CPGtt{
+    animation: airplane-fly 35s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  #globe_airplane2__MwDyy{
+    animation: airplane-fly 35s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  #globe_floatingGlobe__OP22b{
+    animation: globe-travel 50s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  #globe_circle1__CiglL{
+    animation: circle-spin 10s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  #globe_circle4__rs4B7{
+    animation: circle-spin 10s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  #Timeless_Design {
+    transform-origin: 50% 50%;
+    animation: glow 5s ease-in-out infinite alternate;
+  }
+  #globe_cloud1__JK_d9{
+    animation: cloud-vertical-1 4s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  #globe_cloud2__HLLKr{
+    animation: cloud-vertical-2 4s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  #globe_cloud3__gItjv{
+    animation: cloud-vertical-3 4s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  @keyframes airplane-fly {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    10% {
+      opacity: 1;
+    }
+    80% {
+      transform: translateY(-120px) scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-200px) scale(0.8);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes windmill-spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+  }
+  @keyframes airplane-fly {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+  }
+  @keyframes rotation-country {
+    100% { transform: rotate(0deg);}
+    0% { transform: rotate(360deg);}
+  }
+  @keyframes globe-travel {
+    100% { transform: rotate(0deg);}
+    0% { transform: rotate(360deg);}
+  }
+  @keyframes circle-spin {
+    0% { 
+      transform: rotate(0deg);
+      scale: 0.90;
+    }
+    25% {
+      scale: 0.95;
+    }
+    50% {
+      scale: 1.02;
+    }
+    75% {
+      scale: 0.95;
+    }
+    100% { 
+      transform: rotate(360deg);
+      scale: 0.90;
+    }
+  }
+  
+  @keyframes glow {
+    0% {
+      scale: 0.90;
+      filter: drop-shadow(0 0 2px #fff) brightness(1);
+    }
+    25% {
+      scale: 0.95;
+      filter: drop-shadow(0 0 6px #ffe066) brightness(1.05);
+    }
+    50% {
+      scale: 1.0;
+      filter: drop-shadow(0 0 16px #ffe066) brightness(1.1);
+    }
+    75% {
+      scale: 0.95;
+        filter: drop-shadow(0 0 6px #ffe066) brightness(1.05);
+    }
+    100% {
+      scale: 0.90;
+      filter: drop-shadow(0 0 2px #fff) brightness(1);
+    }
+  }
+  @keyframes cloud-vertical-1 {
+    0%   { transform: translateY(0) translateX(0) scale(0.90);}
+    25%  { transform: translateY(-10px) translateX(5px) scale(0.95);}
+    50%  { transform: translateY(0px) translateX(0px) scale(1.0);}
+    75%  { transform: translateY(10px) translateX(-5px) scale(0.95);}
+    100% { transform: translateY(0) translateX(0) scale(0.90);}
+  }
+  
+  @keyframes cloud-vertical-2 {
+    0%   { transform: translateY(0) translateX(0) scale(0.90);}
+    25%  { transform: translateY(5px) translateX(3px) scale(0.95);}
+    50%  { transform: translateY(0px) translateX(0px) scale(1.0);}
+    75%  { transform: translateY(-5px) translateX(-3px) scale(0.95);}
+    100% { transform: translateY(0) translateX(0) scale(0.90);}
+  }
+  
+  @keyframes cloud-vertical-3 {
+    0%   { transform: translateY(0) translateX(0) scale(0.90);}
+    25%  { transform: translateY(18px) translateX(6px) scale(0.95);}
+    50%  { transform: translateY(0px) translateX(0px) scale(1.0);}
+    75%  { transform: translateY(-18px) translateX(-6px) scale(0.95);}
+    100% { transform: translateY(0) translateX(0) scale(0.90);}
+  }
+  

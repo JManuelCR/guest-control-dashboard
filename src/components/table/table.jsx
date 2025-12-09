@@ -292,6 +292,7 @@ const Table = ({ guestList }) => {
     return buttons;
   }, [filteredAndPaginatedData.totalPages, currentPage, handlePageChange]);
 
+
   // Componente de filtro de columna - optimizado con useCallback
   const ColumnFilter = useCallback(({ column, value, onChange, type = 'text', options = [] }) => {
     if (type === 'select') {

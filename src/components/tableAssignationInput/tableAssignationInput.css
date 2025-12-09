@@ -1,0 +1,10 @@
+.input-assignation-table{
+    width: 180px;
+    margin: .5rem .5rem;
+    background-color: white;
+    padding:  0.5rem .25rem;
+    border-radius: 0.25rem;
+    display: block;
+    color: black;
+    font-weight: 600;
+}
