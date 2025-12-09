@@ -479,12 +479,13 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                                 <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} positionAssignation={true} /></td>
                                 <td className="column-number">{guest.guestTableNumber}</td>
                                 <td className="column-number">{guest.guestTablePosition}</td>
-                                <td className="column-actions">
+                                <td className="column-actions"></td>
                                 <td className="column-side">{guest.guestSide || 'N/A'}</td>
                                 <td className="column-number">{guest.guestChickenCountDesire || '0'}</td>
                                 <td className="column-number">{guest.guestPorkCountDesire || '0'}</td>
                                 <td>{guest.guestTransportCount > 0 ? '🚗 Sí' : '❌ No'}</td>
                                 <td className="column-number">{guest.guestTransportCount}</td>
+                                <td>
                                     <GenerateTicketQR guest={guest} />
                                 </td>
                             </tr>
