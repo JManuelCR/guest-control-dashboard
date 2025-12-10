@@ -345,9 +345,15 @@ const TableTickets = ({ list, onGuestUpdated }) => {
         markGuestAssistant(guestName)
     }
     const markGuestAssistant = async(guestName) => {
-        const guestInvitationId = guestList.find(guest => guest.guestName === guestName).guestInvitationId;
+        const guest = guestList.find(guest => guest.guestName === guestName);
+
+        if(guest.guestAssistanceCheck){
+            window.alert(`El invitado ${guest.guestName} ya ha sido recibido`)
+            return
+        };
+        
         try{
-            const guestUpdated = await updateGuest(guestInvitationId, {
+            const guestUpdated = await updateGuest(guest.guestInvitationId, {
                 guestAssistanceCheck: true
             })
             if(guestUpdated){
