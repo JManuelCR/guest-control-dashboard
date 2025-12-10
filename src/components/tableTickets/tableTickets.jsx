@@ -14,6 +14,7 @@ const TableTickets = ({ list, onGuestUpdated }) => {
     const data = useContext(DataContext)
     const [guestList, setGuestList] = useState([]);
     const [scanner, setScanner] = useState(false);
+    const { updateGuest } = useContext(DataContext)
 
     useEffect(() => {
         setGuestList(data.guests.filter(guest => guest.guestParticipation > 0))
@@ -56,7 +57,8 @@ const TableTickets = ({ list, onGuestUpdated }) => {
             sinContestar: 'sin-contestar',
             aceptada: 'aceptada',
             rechazada: 'rechazada',
-            aceptadaParcial: 'aceptada-parcial'
+            aceptadaParcial: 'aceptada-parcial',
+            invitadoRecibido: 'invitado-recibido'
         },
         // Estado del a celda
         cell: {
@@ -103,20 +105,23 @@ const TableTickets = ({ list, onGuestUpdated }) => {
 
         if (!guest) return classDictionary.row.sinAccion;
 
-        const isDelivered = guest.guestInvitationDelivered === true;
-        const hasResponse = guest.guestInvitationResponse === true;
-        const hasParticipation = guest.guestParticipation > 0;
-        const hasPartialParticipation = guest.guestParticipation > guest.guestPassesNumberToRecibe;
+        const isDelivered = guest.guestInvitationDelivered;
+        const hasResponse = guest.guestInvitationResponse;
+        const hasParticipation = guest.guestParticipation > 0 && !guest.guestAssistanceCheck;
+        const hasPartialParticipation = guest.guestParticipation > guest.guestPassesNumberToRecibe && !guest.guestAssistanceCheck;
+        const guestReceived = guest.guestInvitationDelivered && guest.guestInvitationResponse && guest.guestParticipation > 0 && guest.guestAssistanceCheck;
 
         // Lógica mejorada para determinar el estado 
         if (!isDelivered) {
             return classDictionary.row.sinAccion
         } else if (isDelivered && hasResponse && hasParticipation && !hasPartialParticipation) {
             return classDictionary.row.aceptada;
-        } else if (isDelivered && hasResponse && !hasParticipation) {
+        } else if (isDelivered && hasResponse && !hasParticipation && !guestReceived) {
             return classDictionary.row.rechazada;
         } else if (isDelivered && hasResponse && hasPartialParticipation) {
             return classDictionary.row.aceptadaParcial;
+        } else if (guestReceived ) {
+            return classDictionary.row.invitadoRecibido
         } else {
             return classDictionary.row.sinContestar;
         }
@@ -336,7 +341,22 @@ const TableTickets = ({ list, onGuestUpdated }) => {
     const findUser = (guestName) => {
         setSearchTerm(guestName);
         handleSearchChange;
-        setScanner(false)
+        setScanner(false);
+        markGuestAssistant(guestName)
+    }
+    const markGuestAssistant = async(guestName) => {
+        const guestInvitationId = guestList.find(guest => guest.guestName === guestName).guestInvitationId;
+        try{
+            const guestUpdated = await updateGuest(guestInvitationId, {
+                guestAssistanceCheck: true
+            })
+            if(guestUpdated){
+
+            }
+        }
+        catch(error){
+            console.error('Error al actualizar la asistencia del usuario', error)
+        }
     }
 
     return (
@@ -528,7 +548,7 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                 </div>
             </div>
             :
-            <QrCodeScanner findUser={findUser}/>
+            <QrCodeScanner findUser={findUser} />
     )
 }
 

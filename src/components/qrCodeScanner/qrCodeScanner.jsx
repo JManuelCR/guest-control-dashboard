@@ -16,7 +16,7 @@ const QrCodeScanner = ({findUser}) => {
 
     const onScanFailure = (error) => {
       // No es necesario mostrar todos los errores; son comunes al escanear
-      // console.warn("Error de escaneo:", error);
+      console.warn("Error de escaneo:", error);
     };
 
     // Crear instancia del escáner
