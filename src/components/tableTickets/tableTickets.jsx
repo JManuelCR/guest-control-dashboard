@@ -3,13 +3,17 @@ import { useState, useMemo, useCallback, useEffect, useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import TableAssignationInput from "../tableAssignationInput/tableAssignationInput";
 import GenerateTicketQR from "../generateTicketQR/generateTicketQR";
+import './tableTickets.css';
+import QrCodeScanner from "../qrCodeScanner/qrCodeScanner";
+
 const TableTickets = ({ list, onGuestUpdated }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState("");
     const [forceUpdate, setForceUpdate] = useState(0);
     const data = useContext(DataContext)
-    const [guestList, setGuestList] = useState([])
+    const [guestList, setGuestList] = useState([]);
+    const [scanner, setScanner] = useState(false);
 
     useEffect(() => {
         setGuestList(data.guests.filter(guest => guest.guestParticipation > 0))
@@ -329,189 +333,202 @@ const TableTickets = ({ list, onGuestUpdated }) => {
         // El socket ya está configurado para recibir las actualizaciones
     };
 
+    const findUser = (guestName) => {
+        setSearchTerm(guestName);
+        handleSearchChange;
+        setScanner(false)
+    }
+
     return (
-        <div className="table-container">
-            {/* Barra de búsqueda y filtros - FIJA */}
-            <div className="table-filters">
-                <div className="search-section">
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                        className="global-search-input"
-                        placeholder="🔍 Búsqueda general por nombre, lado, relación, tipo o contacto ..."
-                    />
-                    <button
-                        onClick={clearAllFilters} className="clear-filters-btn"
-                    >
-                        🗑️ Limpiar filtros
-                    </button>
-                    <div className="socket-status">
-                        <span className={`status-indicator ${socketConnected ? 'connected' : 'disconnected'}`}>
-                            {socketConnected ? ' 🔌 ' : ' ❌ '}
-                        </span>
-                        <span className="status-text">
-                            {socketConnected ? 'Conectado al servidor' : 'Desconectado del servidor'}
-                        </span>
+        !scanner ?
+            <div className="table-container">
+                {/* Barra de búsqueda y filtros - FIJA */}
+                <div className="table-filters">
+                    <div className="search-section">
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            className="global-search-input"
+                            placeholder="🔍 Búsqueda general por nombre, lado, relación, tipo o contacto ..."
+                        />
+                        <label className="scanner" >
+                            <span>Escanea el código QR del invitado</span>
+                            <input type="button" id="scannerButton" name="scannerButton" onClick={() => setScanner(true)} />
+                        </label>
+                        <button
+                            onClick={clearAllFilters} className="clear-filters-btn"
+                        >
+                            🗑️ Limpiar filtros
+                        </button>
+                        <div className="socket-status">
+                            <span className={`status-indicator ${socketConnected ? 'connected' : 'disconnected'}`}>
+                                {socketConnected ? ' 🔌 ' : ' ❌ '}
+                            </span>
+                            <span className="status-text">
+                                {socketConnected ? 'Conectado al servidor' : 'Desconectado del servidor'}
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Contenedor de scroll horizontal para la tabla */}
-            <div className="table-scroll-container">
-                {/* Tabla de invitados */}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                <div className="header-content">
-                                    <span>Nombre</span>
-                                    <ColumnFilter
-                                        column="guestName"
-                                        value={columnFilters.guestName}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Pases</span>
-                                    <ColumnFilter
-                                        column="guestPassesNumberToRecibe"
-                                        value={columnFilters.guestPassesNumberToRecibe}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Asignación de mesa</span>
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Asignación de posición en mesa</span>
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Número de mesa</span>
-                                    <ColumnFilter
-                                        column="guestTableNumber"
-                                        value={columnFilters.guestTableNumber}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Posición en mesa</span>
-                                    <ColumnFilter
-                                        column="guestTablePosition"
-                                        value={columnFilters.guestTablePosition}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Crear Pase de entrada</span>
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Invitado por</span>
-                                    <ColumnFilter
-                                        column="guestSude"
-                                        value={columnFilters.guestSide}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Número de platillos con pollo</span>
-                                    <ColumnFilter
-                                        column="guestChickenCountDesire"
-                                        value={columnFilters.guestChickenCountDesire}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Número de platillos con cerdo</span>
-                                    <ColumnFilter
-                                        column="guestPorkCountDesire"
-                                        value={columnFilters.guestPorkCountDesire}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Requiere transporte</span>
-                                    <ColumnFilter
-                                        column="guestTransportCount"
-                                        value={columnFilters.guestTransportCount}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div className="header-content">
-                                    <span>Número de personas que requieren transporte</span>
-                                    <ColumnFilter
-                                        column="guestTransportCount"
-                                        value={columnFilters.guestTransportCount}
-                                        onChange={updateColumnFilter}
-                                    />
-                                </div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredAndPaginatedData.paginated.map((guest, index) => (
-                            <tr key={guest.guestInvitationId || index} className={getRowClassesFromDict(guest)}>
-                                <td className="column-name">{guest.guestName || 'N/A'}</td>
-                                <td className="column-passes">{guest.guestChurchAssistantConfirmation > 0 ? guest.guestPassesNumberToRecibe : 0}</td>
-                                <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} /></td>
-                                <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} positionAssignation={true} /></td>
-                                <td className="column-number">{guest.guestTableNumber}</td>
-                                <td className="column-actions">
-                                    <GenerateTicketQR guest={guest} />
-
-                                </td>
-                                <td className="column-side">{guest.guestSide || 'N/A'}</td>
-                                <td className="column-number">{guest.guestChickenCountDesire || '0'}</td>
-                                <td className="column-number">{guest.guestPorkCountDesire || '0'}</td>
-                                <td>{guest.guestTransportCount > 0 ? '🚗 Sí' : '❌ No'}</td>
-                                <td className="column-number">{guest.guestTransportCount}</td>
+                {/* Contenedor de scroll horizontal para la tabla */}
+                <div className="table-scroll-container">
+                    {/* Tabla de invitados */}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Nombre</span>
+                                        <ColumnFilter
+                                            column="guestName"
+                                            value={columnFilters.guestName}
+                                            onChange={updateColumnFilter}
+                                        />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Pases</span>
+                                        <ColumnFilter
+                                            column="guestPassesNumberToRecibe"
+                                            value={columnFilters.guestPassesNumberToRecibe}
+                                            onChange={updateColumnFilter}
+                                        />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Asignación de mesa</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Asignación de posición en mesa</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Número de mesa</span>
+                                        <ColumnFilter
+                                            column="guestTableNumber"
+                                            value={columnFilters.guestTableNumber}
+                                            onChange={updateColumnFilter}
+                                        />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Posición en mesa</span>
+                                        <ColumnFilter
+                                            column="guestTablePosition"
+                                            value={columnFilters.guestTablePosition}
+                                            onChange={updateColumnFilter}
+                                        />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Crear Pase de entrada</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Invitado por</span>
+                                        <ColumnFilter
+                                            column="guestSude"
+                                            value={columnFilters.guestSide}
+                                            onChange={updateColumnFilter}
+                                        />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Número de platillos con pollo</span>
+                                        <ColumnFilter
+                                            column="guestChickenCountDesire"
+                                            value={columnFilters.guestChickenCountDesire}
+                                            onChange={updateColumnFilter}
+                                        />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Número de platillos con cerdo</span>
+                                        <ColumnFilter
+                                            column="guestPorkCountDesire"
+                                            value={columnFilters.guestPorkCountDesire}
+                                            onChange={updateColumnFilter}
+                                        />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Número de personas que requieren transporte</span>
+                                        <ColumnFilter
+                                            column="guestTransportCount"
+                                            value={columnFilters.guestTransportCount}
+                                            onChange={updateColumnFilter}
+                                        />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div className="header-content">
+                                        <span>Requiere transporte</span>
+                                        <ColumnFilter
+                                            column="guestTransportCount"
+                                            value={columnFilters.guestTransportCount}
+                                            onChange={updateColumnFilter}
+                                        />
+                                    </div>
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-            {/*Paginación - FIJA*/}
-            <div className="pagination-container">
-                <div className="pagination-info">
-                    Mostrando {((currentPage - 1) * rowsPerPage) + 1}a {Math.min(currentPage * rowsPerPage, filteredAndPaginatedData.totalFiltered)} de {filteredAndPaginatedData.totalFiltered} invitados
+                        </thead>
+                        <tbody>
+                            {filteredAndPaginatedData.paginated.map((guest, index) => (
+                                <tr key={guest.guestInvitationId || index} className={getRowClassesFromDict(guest)}>
+                                    <td className="column-name">{guest.guestName || 'N/A'}</td>
+                                    <td className="column-passes">{guest.guestChurchAssistantConfirmation > 0 ? guest.guestPassesNumberToRecibe : 0}</td>
+                                    <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} /></td>
+                                    <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} positionAssignation={true} /></td>
+                                    <td className="column-number">{guest.guestTableNumber}</td>
+                                    <td className="column-number">{guest.guestTablePosition}</td>
+                                    <td className="column-actions">
+                                        <GenerateTicketQR guest={guest} />
+                                    </td>
+                                    <td className="column-side">{guest.guestSide || 'N/A'}</td>
+                                    <td className="column-number">{guest.guestChickenCountDesire || '0'}</td>
+                                    <td className="column-number">{guest.guestPorkCountDesire || '0'}</td>
+                                    <td className="column-number">{guest.guestTransportCount}</td>
+                                    <td>{guest.guestTransportCount > 0 ? '🚗 Sí' : '❌ No'}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
-
-                <div className="pagination-controls">
-                    <div className="rows-per-page">
-                        <label htmlFor="">filas por página:</label>
-                        <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
-                            <option value={5}>5</option>
-                            <option value={10}>10</option>
-                            <option value={20}>20</option>
-                            <option value={50}>50</option>
-                        </select>
+                {/*Paginación - FIJA*/}
+                <div className="pagination-container">
+                    <div className="pagination-info">
+                        Mostrando {((currentPage - 1) * rowsPerPage) + 1}a {Math.min(currentPage * rowsPerPage, filteredAndPaginatedData.totalFiltered)} de {filteredAndPaginatedData.totalFiltered} invitados
                     </div>
-                    {generatePaginationButtons()}
+
+                    <div className="pagination-controls">
+                        <div className="rows-per-page">
+                            <label htmlFor="">filas por página:</label>
+                            <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
+                                <option value={5}>5</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={50}>50</option>
+                            </select>
+                        </div>
+                        {generatePaginationButtons()}
+                    </div>
                 </div>
             </div>
-        </div>
+            :
+            <QrCodeScanner findUser={findUser}/>
     )
 }
 

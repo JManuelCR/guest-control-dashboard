@@ -1,0 +1,19 @@
+.scanner{
+    padding: 8px 14px;
+    border-radius: 8px;
+    background-color: rgb(5, 5, 96);
+    box-shadow: 2px 1px 4px black;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+}
+.scanner:hover{
+    border: 2px solid rgb(5, 5, 96);
+    background-color: white;
+    color: rgb(5, 5, 96);
+    font-size: 16px;
+    font-weight: 800;
+}
+.scanner input {
+    display: none
+}

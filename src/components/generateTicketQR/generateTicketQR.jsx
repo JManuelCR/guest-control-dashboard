@@ -13,7 +13,7 @@ const GenerateTicketQR = ({ guest }) => {
         pases: guest?.guestParticipation || 0,
         mesa: guest?.guestTableNumber || 'N/A',
         position: guest?.guestTablePosition,
-        asientosEnTransporte: guest?.guestTransportCount
+        asientosEnTransporte: guest?.guestTransportCount,
     });
 
     const handleDownload = async () => {
@@ -157,7 +157,16 @@ const GenerateTicketQR = ({ guest }) => {
                     </div>
                 </div>
                 <div className="mark-circle bottom"></div>
-                {/* <div className='seal'></div> */}
+                {
+                    guest.guestTableCapitan ? (
+                           <div className='seal'>
+                    <p>Capitan</p>
+                </div>
+                    )
+                    :
+                    (<></>)
+                }
+             
             </div>
         </>
     );

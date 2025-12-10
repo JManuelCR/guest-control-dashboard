@@ -19,14 +19,13 @@ const TableAssignationInput = (({ guest, updatedGuest, positionAssignation = fal
     useEffect(() => {
         const newTableNumber = guest?.guestTableNumber ?? '';
         const newPosition = guest?.guestTablePosition ?? ''
-        if(positionAssignation)
-            debugger
+        if (positionAssignation)
         // Solo actualizar si no estamos en medio de una actualización del usuario
         // y el valor del contexto es diferente al estado actual
         if (!isUserUpdatingRef.current && newTableNumber !== '' && newTableNumber !== table && !positionAssignation) {
             setTable(newTableNumber);
         }
-        else if(!isUserUpdatingRef.current && newPosition !== '' && newPosition !== position && positionAssignation){
+        else if (!isUserUpdatingRef.current && newPosition !== '' && newPosition !== position && positionAssignation) {
             setPosition(newPosition);
         }
     }, [guest?.guestTableNumber]);
@@ -40,8 +39,11 @@ const TableAssignationInput = (({ guest, updatedGuest, positionAssignation = fal
     }, [guest]);
 
     const assignationTable = ((event) => {
-        const newValue = parseInt(event.target.value);
-                isUserUpdatingRef.current = true; // Marcar que el usuario está actualizando
+        let newValue = parseInt(event.target.value);
+        isUserUpdatingRef.current = true; // Marcar que el usuario está actualizando
+        if(positionAssignation)
+            newValue = event.target.value
+
 
         if (debounceRef.current) {
             clearTimeout(debounceRef.current);
@@ -122,19 +124,17 @@ const TableAssignationInput = (({ guest, updatedGuest, positionAssignation = fal
     })
 
     return positionAssignation ? (<input
-            className="input-assignation-table"
-            type="string"
-            placeholder= "Introduce la posición del invitado en la mesa"
-            value= {position}
-            onChange={assignationTable}
-            min={1}
-            max={29}
-            readOnly={userType !== 'admin'}
-        />):(
+        className="input-assignation-table"
+        type="text"
+        placeholder="Introduce la posición del invitado en la mesa"
+        value={position}
+        onChange={assignationTable}
+        readOnly={userType !== 'admin'}
+    />) : (
         <input
             className="input-assignation-table"
             type="number"
-            placeholder= "Introduce la mesa del invitado"
+            placeholder="Introduce la mesa del invitado"
             value={table}
             onChange={assignationTable}
             min={1}
