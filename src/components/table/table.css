@@ -209,6 +209,11 @@ table tbody .invitado-recibido{
   background-color: rgba(238, 0, 255, 0.449);
 
 }
+table tbody .invitado-recibido .capitan{
+  animation-name: capitanReceived;
+  animation-duration: 5s;
+  transition: ease-in-out;
+}
 
 table tbody tr.aceptada-parcial { 
   background-color: #ecae327f; 
@@ -237,6 +242,10 @@ table tbody tr.aceptada-parcial:hover {
   background-color: #f1a307dd; 
   transform: translateY(-1px);
 }
+table tbody tr.invitado-recibido .capitan:hover { 
+  background-color: #f1a307dd; 
+  transform: translateY(-1px);
+}
 
 table tbody .invitado-recibido:hover {
   background-color: rgba(238, 0, 255, 0.827);
@@ -261,10 +270,11 @@ table tbody tr.rechazada:active {
 table tbody tr.aceptada-parcial:active { 
   background-color: #f8a807ce; 
 }
+table tbody tr.invitado-recibido .capitan:active { 
+  background-color: #f8a807ce; 
+}
 table tbody .invitado-recibido:active {
   background-color: rgba(238, 0, 255, 1);
-  
-;
 }
 
 /* Contenedor de paginación - FIJO */
@@ -413,3 +423,11 @@ table tbody .invitado-recibido:active {
 .column-actions { min-width: 100px; }
 .column-status { min-width: 120px; }
 .column-number { min-width: 80px; }
+
+@keyframes capitanReceived {
+  0%   {background-color:rgb(255, 200, 0); left:0px; top:0px;}
+  25%  {background-color:rgba(255, 200, 0, 0.645); left:20px; top:1px;}
+  50%  {background-color:rgb(255, 200, 0); left:4px; top:5px;}
+  75%  {background-color:rgb(255, 200, 0, 0.645); left:0px; top:0px;}
+  100% {background-color:rgb(255, 200, 0); left:5px; top:10px;}
+}

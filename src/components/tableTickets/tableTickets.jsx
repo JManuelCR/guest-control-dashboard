@@ -58,7 +58,8 @@ const TableTickets = ({ list, onGuestUpdated }) => {
             aceptada: 'aceptada',
             rechazada: 'rechazada',
             aceptadaParcial: 'aceptada-parcial',
-            invitadoRecibido: 'invitado-recibido'
+            invitadoRecibido: 'invitado-recibido',
+            capitan: 'invitado-recibido capitan'
         },
         // Estado del a celda
         cell: {
@@ -109,11 +110,14 @@ const TableTickets = ({ list, onGuestUpdated }) => {
         const hasResponse = guest.guestInvitationResponse;
         const hasParticipation = guest.guestParticipation > 0 && !guest.guestAssistanceCheck;
         const hasPartialParticipation = guest.guestParticipation > guest.guestPassesNumberToRecibe && !guest.guestAssistanceCheck;
-        const guestReceived = guest.guestInvitationDelivered && guest.guestInvitationResponse && guest.guestParticipation > 0 && guest.guestAssistanceCheck;
+        const guestReceived = guest.guestInvitationDelivered && guest.guestInvitationResponse && guest.guestParticipation > 0 && guest.guestAssistanceCheck && !guest.guestTableCapitan;
+        const guestCapitan = guest.guestInvitationDelivered && guest.guestInvitationResponse && guest.guestParticipation > 0 && guest.guestAssistanceCheck && guest.guestTableCapitan;
 
         // Lógica mejorada para determinar el estado 
         if (!isDelivered) {
             return classDictionary.row.sinAccion
+        } else if(guestCapitan){
+            return classDictionary.row.capitan
         } else if (isDelivered && hasResponse && hasParticipation && !hasPartialParticipation) {
             return classDictionary.row.aceptada;
         } else if (isDelivered && hasResponse && !hasParticipation && !guestReceived) {
