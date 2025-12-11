@@ -150,8 +150,8 @@ El sistema proporciona logs detallados en la consola del navegador:
 
 ```javascript
 const manager = new GuestSocketManager();
-console.log('Estado:', manager.isConnected());
-console.log('Stats:', manager.getConnectionStats());
+// console.log('Estado:', manager.isConnected());
+// console.log('Stats:', manager.getConnectionStats());
 ```
 
 ## 🚨 Manejo de Errores

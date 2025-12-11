@@ -15,10 +15,10 @@ export default defineConfig(({ mode }) => {
   // Cargar variables de entorno del archivo .env
   const env = loadEnv(mode, fileURLToPath(new URL('.', import.meta.url)), '')
   
-  console.log('🔧 Vite Config - Variables de entorno cargadas:')
-  console.log('  - MODE:', mode)
-  console.log('  - NODE_ENV:', env.NODE_ENV)
-  console.log('  - VITE_API_URL:', env.VITE_API_URL)
+  // console.log('🔧 Vite Config - Variables de entorno cargadas:')
+  // console.log('  - MODE:', mode)
+  // console.log('  - NODE_ENV:', env.NODE_ENV)
+  // console.log('  - VITE_API_URL:', env.VITE_API_URL)
   
   return {
     plugins: [react()],
@@ -61,37 +61,37 @@ VITE_MODE=production
 export const VERCEL_CONFIG = {
   // Detección mejorada del entorno
   getEnvironment() {
-    console.log('🔧 Detección de entorno - Variables disponibles:');
-    console.log('  - import.meta.env.MODE:', import.meta.env.MODE);
-    console.log('  - import.meta.env.DEV:', import.meta.env.DEV);
-    console.log('  - import.meta.env.PROD:', import.meta.env.PROD);
+    // console.log('🔧 Detección de entorno - Variables disponibles:');
+    // console.log('  - import.meta.env.MODE:', import.meta.env.MODE);
+    // console.log('  - import.meta.env.DEV:', import.meta.env.DEV);
+    // console.log('  - import.meta.env.PROD:', import.meta.env.PROD);
     
     // Si estamos en Vercel, forzar producción
     if (this.isVercel) {
-      console.log('✅ Detectado Vercel - Forzando entorno de producción');
+      // console.log('✅ Detectado Vercel - Forzando entorno de producción');
       return 'production';
     }
     
     // Verificar si MODE está configurado como 'production'
     if (import.meta.env.MODE === 'production') {
-      console.log('✅ MODE configurado como production');
+      // console.log('✅ MODE configurado como production');
       return 'production';
     }
     
     // Usar la detección estándar de Vite
     if (import.meta.env.PROD === true) {
-      console.log('✅ PROD detectado como true');
+      // console.log('✅ PROD detectado como true');
       return 'production';
     }
     
     if (import.meta.env.DEV === true) {
-      console.log('✅ DEV detectado como true');
+      // console.log('✅ DEV detectado como true');
       return 'development';
     }
     
     // Fallback basado en el modo
     const fallbackMode = import.meta.env.MODE || 'development';
-    console.log('⚠️ Usando fallback basado en MODE:', fallbackMode);
+    // console.log('⚠️ Usando fallback basado en MODE:', fallbackMode);
     return fallbackMode;
   }
 };

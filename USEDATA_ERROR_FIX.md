@@ -32,7 +32,7 @@ const DataProvider = ({ children }) => {
     requestGuestsViaSocket
   };
 
-  console.log('DataProvider - Valor del contexto:', value); // Log de debug
+  // console.log('DataProvider - Valor del contexto:', value); // Log de debug
 
   return (
     <DataContext.Provider value={value}>
@@ -47,7 +47,7 @@ const DataProvider = ({ children }) => {
 // src/context/userData.jsx
 export const useData = () => {
   const context = useContext(DataContext);
-  console.log('useData - Contexto recibido:', context); // Log de debug
+  // console.log('useData - Contexto recibido:', context); // Log de debug
   return context;
 };
 ```
@@ -63,7 +63,7 @@ const Dashboard = () => {
   
   // Verificación de seguridad
   if (!data) {
-    console.log('Dashboard - useData retornó null, mostrando loading...');
+    // console.log('Dashboard - useData retornó null, mostrando loading...');
     return (
       <div className="loading-screen">
         <div className="loading-spinner"></div>

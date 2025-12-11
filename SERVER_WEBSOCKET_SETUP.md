@@ -36,16 +36,16 @@ app.use(express.json());
 // Función para emitir a todos los clientes conectados
 function emitToAll(event, data) {
   io.emit(event, data);
-  console.log(`📡 Evento emitido: ${event}`, data);
+  // console.log(`📡 Evento emitido: ${event}`, data);
 }
 
 // Manejo de conexiones WebSocket
 io.on('connection', (socket) => {
-  console.log(`🔌 Cliente conectado: ${socket.id}`);
+  // console.log(`🔌 Cliente conectado: ${socket.id}`);
   
   // Cuando un cliente se desconecta
   socket.on('disconnect', () => {
-    console.log(`❌ Cliente desconectado: ${socket.id}`);
+    // console.log(`❌ Cliente desconectado: ${socket.id}`);
   });
   
   // Escuchar solicitudes de invitados
@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
   
   // Escuchar actualizaciones de invitados
   socket.on('guest-update', (guestData) => {
-    console.log('Actualización de invitado recibida:', guestData);
+    // console.log('Actualización de invitado recibida:', guestData);
     // Aquí procesas la actualización en tu base de datos
     // Luego emites el evento a todos los clientes
     emitToAll('guest-updated', guestData);
@@ -72,7 +72,7 @@ io.on('connection', (socket) => {
   
   // Escuchar nuevos invitados
   socket.on('guest-add', (guestData) => {
-    console.log('Nuevo invitado recibido:', guestData);
+    // console.log('Nuevo invitado recibido:', guestData);
     // Aquí procesas la adición en tu base de datos
     // Luego emites el evento a todos los clientes
     emitToAll('guest-added', guestData);
@@ -80,7 +80,7 @@ io.on('connection', (socket) => {
   
   // Escuchar eliminación de invitados
   socket.on('guest-remove', (guestData) => {
-    console.log('Eliminación de invitado recibida:', guestData);
+    // console.log('Eliminación de invitado recibida:', guestData);
     // Aquí procesas la eliminación en tu base de datos
     // Luego emites el evento a todos los clientes
     emitToAll('guest-removed', guestData);

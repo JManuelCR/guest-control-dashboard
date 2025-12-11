@@ -182,8 +182,8 @@ const Table = ({ guestList }) => {
       if (filterValue && filterValue.trim() !== '') {
         filtered = filtered.filter(guest => {
           const guestValue = guest[column];
-          console.log(guestValue);
-          console.log(column);
+          // console.log(guestValue);
+          // console.log(column);
           if (guestValue === null || guestValue === undefined) return false;
           
           // Filtrado especial para campos booleanos/estado

@@ -188,7 +188,7 @@ app.post('/auth/logout', authenticateToken, async (req, res) => {
 app.get('/guests', authenticateToken, async (req, res) => {
   try {
     // req.user contiene la información del usuario autenticado
-    console.log('Usuario autenticado:', req.user);
+    // console.log('Usuario autenticado:', req.user);
     
     // Tu lógica para obtener invitados
     const guests = await getAllGuests();

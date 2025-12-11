@@ -44,7 +44,7 @@ export function useGuestSocket() {
         setIsConnected(false);
         setConnectionStatus('disconnected');
         // Intentar reconectar automáticamente
-        console.log('🔄 Intentando reconectar WebSocket...');
+        // console.log('🔄 Intentando reconectar WebSocket...');
         manager.connect();
       }
     }, 5000); // Aumentado a 5 segundos para reducir carga

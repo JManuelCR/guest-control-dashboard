@@ -39,14 +39,14 @@ export const getSocketUrl = () => {
   // Intentar usar variable de entorno, fallback a localhost
   try {
     if (import.meta.env.VITE_API_URL) {
-      console.log('🔗 Usando URL de API desde variable de entorno:', import.meta.env.VITE_API_URL);
+      // console.log('🔗 Usando URL de API desde variable de entorno:', import.meta.env.VITE_API_URL);
       return import.meta.env.VITE_API_URL;
     }
   } catch (error) {
     console.warn('No se pudo leer VITE_API_URL, usando localhost por defecto:', error);
   }
   
-  console.log('🔗 Usando URL por defecto:', SOCKET_CONFIG.SERVER_URL);
+  // console.log('🔗 Usando URL por defecto:', SOCKET_CONFIG.SERVER_URL);
   return SOCKET_CONFIG.SERVER_URL;
 };
 
