@@ -139,7 +139,7 @@ const TableTickets = ({ list, onGuestUpdated }) => {
     }, [classDictionary.cell.status]);
     // FUncion para actualizar los filtros de la columna -optima con useCallback
     const updateColumnFilter = useCallback((columnKey, filterValue) => {
-        setColumns((prevFilters) => ({
+        setColumnsFilters((prevFilters) => ({
             ...prevFilters,
             [columnKey]: filterValue,
         }));
@@ -173,12 +173,15 @@ const TableTickets = ({ list, onGuestUpdated }) => {
     }, []);
 
     const filteredAndPaginatedData = useMemo(() => {
+        debugger
 
         let filtered = guestList.filter(guest =>
             guest.guestName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             guest.guestSide.toLowerCase().includes(searchTerm.toLowerCase()) ||
             guest.guestRelationship.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            guest.guestType.toLowerCase().includes(searchTerm.toLowerCase())
+            guest.guestType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            guest.guestTableNumber.includes(searchTerm) || 
+            guest.positionAssignation.split(",").include(searchTerm)
         );
 
         Object.entries(columnFilters).forEach(([column, filterValue]) => {
@@ -199,7 +202,7 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                     if (column == 'guestParticipation') {
                         return filterValue === 'all' || guestValue > 0;
                     }
-                    return guestValue.toString().toLowerCase().includes(filterValue.toLowerCase());
+                    return guestValue?.toString().toLowerCase().includes(filterValue.toLowerCase());
                 });
             }
         });
