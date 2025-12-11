@@ -209,10 +209,11 @@ table tbody .invitado-recibido{
   background-color: rgba(238, 0, 255, 0.449);
 
 }
-table tbody .invitado-recibido .capitan{
+table tbody .invitado-recibido.capitan{
   animation-name: capitanReceived;
-  animation-duration: 5s;
+  animation-duration: 2s;
   transition: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
 table tbody tr.aceptada-parcial { 
@@ -242,7 +243,7 @@ table tbody tr.aceptada-parcial:hover {
   background-color: #f1a307dd; 
   transform: translateY(-1px);
 }
-table tbody tr.invitado-recibido .capitan:hover { 
+table tbody tr.invitado-recibido.capitan:hover { 
   background-color: #f1a307dd; 
   transform: translateY(-1px);
 }
@@ -270,7 +271,7 @@ table tbody tr.rechazada:active {
 table tbody tr.aceptada-parcial:active { 
   background-color: #f8a807ce; 
 }
-table tbody tr.invitado-recibido .capitan:active { 
+table tbody tr.invitado-recibido.capitan:active { 
   background-color: #f8a807ce; 
 }
 table tbody .invitado-recibido:active {
