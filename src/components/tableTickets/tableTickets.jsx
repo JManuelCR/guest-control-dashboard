@@ -515,7 +515,7 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                             {filteredAndPaginatedData.paginated.map((guest, index) => (
                                 <tr key={guest.guestInvitationId || index} className={getRowClassesFromDict(guest)}>
                                     <td className="column-name">{guest.guestName || 'N/A'}</td>
-                                    <td className="column-passes">{guest.guestChurchAssistantConfirmation > 0 ? guest.guestPassesNumberToRecibe : 0}</td>
+                                    <td className="column-passes">{guest.guestChurchAssistantConfirmation > 0 ? guest.guestParticipation : 0}</td>
                                     <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} /></td>
                                     <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} positionAssignation={true} /></td>
                                     <td className="column-number">{guest.guestTableNumber}</td>
