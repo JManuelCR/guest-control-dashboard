@@ -175,12 +175,13 @@ const TableTickets = ({ list, onGuestUpdated }) => {
     const filteredAndPaginatedData = useMemo(() => {
 
         let filtered = guestList.filter(guest =>
-            guest.guestName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            guest.guestReceptionAssistantConfirmation &&
+            (guest.guestName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             guest.guestSide.toLowerCase().includes(searchTerm.toLowerCase()) ||
             guest.guestRelationship.toLowerCase().includes(searchTerm.toLowerCase()) ||
             guest.guestType.toLowerCase().includes(searchTerm.toLowerCase()) ||
             guest.guestTableNumber?.toString().includes(searchTerm) || 
-           guest.guestTablePosition?.toString().split(",").hasOwnProperty(searchTerm)
+           guest.guestTablePosition?.toString().split(",").hasOwnProperty(searchTerm)) 
         );
 
         Object.entries(columnFilters).forEach(([column, filterValue]) => {
