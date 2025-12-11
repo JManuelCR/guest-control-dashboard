@@ -179,8 +179,8 @@ const TableTickets = ({ list, onGuestUpdated }) => {
             guest.guestSide.toLowerCase().includes(searchTerm.toLowerCase()) ||
             guest.guestRelationship.toLowerCase().includes(searchTerm.toLowerCase()) ||
             guest.guestType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            guest.guestTableNumber.includes(searchTerm) || 
-            guest.positionAssignation.split(",").include(searchTerm)
+            guest.guestTableNumber?.toString().includes(searchTerm) || 
+           guest.guestTablePosition?.toString().split(",").hasOwnProperty(searchTerm)
         );
 
         Object.entries(columnFilters).forEach(([column, filterValue]) => {
