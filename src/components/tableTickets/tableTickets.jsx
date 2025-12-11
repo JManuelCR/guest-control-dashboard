@@ -173,7 +173,6 @@ const TableTickets = ({ list, onGuestUpdated }) => {
     }, []);
 
     const filteredAndPaginatedData = useMemo(() => {
-        debugger
 
         let filtered = guestList.filter(guest =>
             guest.guestName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -201,6 +200,9 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                     }
                     if (column == 'guestParticipation') {
                         return filterValue === 'all' || guestValue > 0;
+                    }
+                    if(column == 'guestTableNumber'){
+                        return guestValue === parseInt(filterValue)
                     }
                     return guestValue?.toString().toLowerCase().includes(filterValue.toLowerCase());
                 });
