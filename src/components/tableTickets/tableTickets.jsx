@@ -113,7 +113,7 @@ const TableTickets = ({ list, onGuestUpdated }) => {
         const guestReceived = guest.guestInvitationDelivered && guest.guestInvitationResponse && guest.guestParticipation > 0 && guest.guestAssistanceCheck && !guest.guestTableCapitan;
         const guestCapitan = guest.guestInvitationDelivered && guest.guestInvitationResponse && guest.guestParticipation > 0 && guest.guestAssistanceCheck && guest.guestTableCapitan;
 
-        if(guest.guestTableCapitan)
+
         // Lógica mejorada para determinar el estado 
         if (!isDelivered) {
             return classDictionary.row.sinAccion
