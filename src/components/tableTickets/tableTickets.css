@@ -17,3 +17,28 @@
 .scanner input {
     display: none
 }
+.registro-de-invitado{
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: white;
+    background-color: rgb(16, 84, 13);
+    box-shadow: 1px 2px 4px rgb(47, 44, 44);  
+    font-size: 14px;  
+    font-weight: 500;
+}
+.registro-de-invitado:hover{
+    font-size: 16px;
+    font-weight: 700;
+    background-color: rgba(17, 84, 13, 0.508);
+}
+.registro-de-invitado:active{
+    font-size: 16px;
+    font-weight: 700;
+    color: rgb(16, 84, 13);
+    border: 1px solid rgb(16, 84, 13);
+    background-color: white;
+}
+
+.registro-de-invitado:disabled{
+    opacity: 0.7;
+}

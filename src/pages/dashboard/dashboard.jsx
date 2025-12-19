@@ -88,7 +88,9 @@ const Dashboard = () => {
       </div>
       
       <div className="dashboard-stats">
+          {userType === 'admin' ? 
           <CountersSection />
+           : <></>}
           <WebSocketStatus />
       </div>
       

@@ -114,7 +114,6 @@ const TableTickets = ({ list, onGuestUpdated }) => {
         const guestCapitan = guest.guestInvitationDelivered && guest.guestInvitationResponse && guest.guestParticipation > 0 && guest.guestAssistanceCheck && guest.guestTableCapitan;
 
         if(guest.guestTableCapitan)
-            debugger
         // Lógica mejorada para determinar el estado 
         if (!isDelivered) {
             return classDictionary.row.sinAccion
@@ -530,6 +529,13 @@ const TableTickets = ({ list, onGuestUpdated }) => {
                                     <td className="column-passes">{guest.guestChurchAssistantConfirmation > 0 ? guest.guestParticipation : 0}</td>
                                     <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} /></td>
                                     <td><TableAssignationInput guest={guest} updatedGuest={updateGuestsList} positionAssignation={true} /></td>
+                                    <td className="column-actions">
+                                        <button
+                                        className="registro-de-invitado"
+                                        disabled={guest.guestAssistanceCheck}
+                                        onClick={() => markGuestAssistant(guest.guestName)}
+                                        >Registrar asistencia</button>
+                                    </td>
                                     <td className="column-number">{guest.guestTableNumber}</td>
                                     <td className="column-number">{guest.guestTablePosition}</td>
                                     <td className="column-actions">
